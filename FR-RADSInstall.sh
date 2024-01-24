@@ -15,9 +15,9 @@ echo "Retreiving Files from github"
 
 mkdir /root/ADDCInstaller
 
-git clone https://github.com/fumatchu/FR-RADS.git /root/FRRADSInstaller
+git clone https://github.com/fumatchu/FR-RADS.git /root/FR-Installer
 
-chmod 700 /root/FRRADSInstaller/i*
+chmod 700 /root/FR-Installer/i*
 clear
 
 /root/FRRADSInstaller/install1.sh
