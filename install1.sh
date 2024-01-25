@@ -32,6 +32,7 @@ read -p "Press Any Key to Continue"
 sed -i 's/^SELINUX=.*/SELINUX=disabled/g' /etc/selinux/config
 
 #Allow FreeRADIUS Ports on firewall-cmd
+echo "Updating Firewall Rules"
 echo " "
 firewall-cmd --add-service=radius --permanent
 firewall-cmd --reload
