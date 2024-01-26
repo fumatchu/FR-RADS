@@ -217,6 +217,7 @@ clear
 
 #Create certs
 echo "Creating the default 60 day certs"
+echo " "
 echo "If you want to create your own self signed certs, please refer to"
 echo "the README file in /etc/raddb/certs/ and the Installation and configuration guide at:"
 echo "https://github.com/fumatchu/FR-RADS"
