@@ -85,6 +85,7 @@ clear
 echo "Joining the Machine to AD."
 echo " "
 echo "Please provide a user account that will allow you to join this server to the domain (i.e Administrator)"
+echo "Make sure it is just the username. WE DO NOT need the UPN of the account here"
 echo "You will also need to provide the password when prompted"
 echo " "
 read DOMAINADMIN
@@ -147,9 +148,7 @@ read -p "If successful, press any Key, otherwise Ctrl-C to stop processing"
 #Add support for NTLM_BIND to AD
 sed -i '9i \       \ ntlm auth = mschapv2-and-ntlmv2-only' /etc/samba/smb.conf
 
-
-#sed -i '15d' /filename
-
+#Modify PATH and DOMAIN
 echo "Adding ntlm_auth"
 sed -i 's\/path/to/ntlm_auth\/usr/bin/ntlm_auth\' /etc/raddb/mods-enabled/ntlm_auth
 
@@ -177,14 +176,8 @@ systemctl start winbind
 
 #Add Modified ntlm_auth to mschap
 touch /root/FR-Installer/ntlm_auth.tmp
-echo 'ntlm_auth = "/usr/bin/ntlm_auth --request-nt-key --allow-mschapv2 --username=%{mschap:User-Name:-None} --domain=%{%{mschap:NT-Domain}:-$ADDOMAIN} --challenge=%{mschap:Challenge:-00} --nt-response=%{mschap:NT-Response:-00}"'>>/root/FR-Installer/ntlm_auth.tmp
-#####################
-#
-#
-#We NEED to fix this ABOVE.. -ADDOMAIN not carrying the variable .. sed it after dropping into the tmp files?
-#i.e.
-#sed -i "s/--domain=MYDOMAIN/--domain=$ADDOMAIN/" /etc/raddb/mods-enabled/ntlm_auth
-
+echo 'ntlm_auth = "/usr/bin/ntlm_auth --request-nt-key --allow-mschapv2 --username=%{mschap:User-Name:-None} --domain=%{%{mschap:NT-Domain}:-MYDOMAIN} --challenge=%{mschap:Challenge:-00} --nt-response=%{mschap:NT-Response:-00}"'>>/root/FR-Installer/ntlm_auth.tmp
+sed -i "s/-MYDOMAIN/-$ADDOMAIN/" /root/FR-Installer/ntlm_auth.tmp
 sed -i '83 r /root/FR-Installer/ntlm_auth.tmp' /etc/raddb/mods-enabled/mschap
 
 #Enable MAC Base Auth 
@@ -192,11 +185,13 @@ touch /root/FR-Installer/rewrite_MAC
 echo "rewrite_calling_station_id" >> /root/FR-Installer/rewrite_MAC
 sed -i '285 r /root/FR-Installer/rewrite_MAC' /etc/raddb/sites-enabled/default
 
+clear
 #Add NAS Client Subnet
-echo " We are going to add the network allowed for NAS Devices to talk to FreeRADIUS"
+echo " We are going to add the network/subnet for NAS Devices to talk to FreeRADIUS"
 echo "i.e This is the subnet of management IP addresses from Access Points, Switches, etc."
+echo "You can always add more then one in /etc/raddb/clients.conf"
 echo " "
-echo "Please provide the NAS subnet in CIDR notation"
+echo "Please provide the subnet in CIDR notation"
 echo "i.e. 192.0.2.0/24"
 read CIDRNAS
 
@@ -218,7 +213,7 @@ echo "       ipaddr        = $CIDRNAS" >> /root/FR-Installer/nasclient
 echo "       secret        = $NASSECRET" >>/root/FR-Installer/nasclient
 echo "}" >>/root/FR-Installer/nasclient
 sed -i '249 r /root/FR-Installer/nasclient' /etc/raddb/clients.conf
-
+clear
 
 #Create certs
 echo "Creating the default 60 day certs"
