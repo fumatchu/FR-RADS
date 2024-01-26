@@ -233,3 +233,8 @@ echo "If this returns allowed, your server is configured properly"
 echo "${green}
 radtest -t mschap $FRUSER $FRPASS locaolhost 0 testing123
 echo "${textreset}
+
+#clean up our mess
+sed -i '$ d' /root/.bash_profile
+rm -r -f /root/FR-Installer
+rm -r -f /root/FR-Installer.sh
