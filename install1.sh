@@ -31,7 +31,8 @@ echo "You should have specified the static IP and FQDN of this machine"
 echo "It is assumed this is the correct information and will be utilized for the install."
 echo "Most importantly, IS this server's primary DNS entry pointing to your AD environment for DNS resolution?"
 echo "If this information is not correct, i.e. ip address, hostname, domain name, use${textreset} ${yellow}nmtui${textreset} ${red}to modify it,"
-echo "and start the installer again${textreset}"
+echo "and start the installer again by typing"
+echo "/root/FR-Installer.sh${textreset}"
 read -p "Press Enter to conitnue or CtrL-C to terminate the installer"
 
 
