@@ -129,7 +129,7 @@ read -p "If successful, press any Key, otherwise Ctrl-C to stop processing"
 echo " "
 clear
 #Basic test against AD
-echo "We are going to login with the test account. Please make sure you see a valid response of:"
+echo "We are going to login with the test account($FRUSER). Please make sure you see a valid response of:"
 echo " "
 echo ${green}"challenge/response password authentication succeeded${textreset}"
 echo " "
