@@ -197,15 +197,15 @@ read CIDRNAS
 
 echo "Please provide the secret these NAS devices will be using:"
 read NASSECRET
-
+clear
 echo "You specified your network as:"
 echo " "
-echo "Network: $CIDRNAS"
+echo "Network: ${green}$CIDRNAS${textreset}"
 echo " "
 echo " And this is your secret"
-echo "Password: $NASSECRET"
+echo "Password: ${green}$NASSECRET${textreset}"
 read -p "Press Any Key" 
-
+clear
 touch /root/FR-Installer/nasclient
 echo "#Added by FR-Installer" >> /root/FR-Installer/nasclient
 echo "client private-network-1 {">> /root/FR-Installer/nasclient
