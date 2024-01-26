@@ -99,6 +99,7 @@ read -p "Press any Key"
 clear 
 
 echo "Checking that RPC Calls are successful to Active Directory"
+echo "The result is:"
 echo " "
 echo ${green}
 wbinfo -t
@@ -107,7 +108,7 @@ echo " "
 
 
 #Validate winbind is working 
-echo "We are going to run wbinfo. Please make sure you see your AD users."
+echo "Checking to see AD (via winbind). Please make sure you see your AD users."
 echo "If you do not, then please resolve this issue first before proceeding."
 echo " "
 echo ${green}
@@ -118,7 +119,7 @@ read -p "If successful, press any Key, otherwise Ctrl-C to stop processing"
 echo " "
 clear
 #Validate Winbind Groups are seen
-echo "We are going to run wbinfo. Please make sure you see your AD groups."
+echo "Please make sure you see your AD groups."
 echo "If you do not, then please resolve this issue first before proceeding."
 echo " "
 echo ${green}
