@@ -231,7 +231,7 @@ clear
 #Test MSCHAP
 echo "We are going to test MSCHAP from the local server"
 echo "If this returns allowed, your server is configured properly"
-echo "${green}
+echo "${green}"
 radtest -t mschap $FRUSER $FRPASS localhost 0 testing123
 echo "${textreset}"
 
