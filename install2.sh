@@ -101,7 +101,7 @@ read -p "Press any Key"
 
 clear 
 
-echo "Checking that RPC Calls are successful"
+echo "Checking that RPC Calls are successful to Active Directory"
 echo " "
 echo ${green}
 wbinfo -t
@@ -223,3 +223,16 @@ echo "https://github.com/fumatchu/FR-RADS"
 read -p "Press Any Key"
 
 /etc/raddb/certs/bootstrap
+
+#Start radiusd
+echo "Starting radiusd and enabling for boot time"
+systemctl enable radiusd
+systemctl start radiusd 
+clear
+#Test MSCHAP
+echo "We are going to test MSCHAP"
+echo "We will be testing this from the local server:
+echo "If this returns allowed, your server is configured properly"
+echo "${green}
+radtest -t mschap $FRUSER $FRPASS locaolhost 0 testing123
+echo "${textreset}
