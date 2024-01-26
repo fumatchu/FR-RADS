@@ -26,7 +26,7 @@ echo " "
 read -p "Press Enter when you're ready"
 
 clear
-echo "We are going to need a testing user for PEAP-MSCHAP. It should already be a valid account in AD"
+echo "We are going to need a testing user for MSCHAP. It should already be a valid account in Active Directory"
 echo "Please provide the username and password for this account and the DOMAIN (REALM)"
 echo " "
 echo "Please provide the AD username:"
@@ -60,9 +60,6 @@ echo " "
 echo "You provided: ${green}$NTP${textreset}"
 echo " "
 read -p "Press any Key"
-
-echo "Adjusting the time for this server and restarting chrony"
-echo "Please validate the settings are correct"
 
 sed -i "/pool /c\server $NTP iburst" /etc/chrony.conf
 sed -i "/server /c\server $NTP iburst" /etc/chrony.conf
