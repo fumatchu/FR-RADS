@@ -178,6 +178,13 @@ systemctl start winbind
 #Add Modified ntlm_auth to mschap
 touch /root/FR-Installer/ntlm_auth.tmp
 echo 'ntlm_auth = "/usr/bin/ntlm_auth --request-nt-key --allow-mschapv2 --username=%{mschap:User-Name:-None} --domain=%{%{mschap:NT-Domain}:-$ADDOMAIN} --challenge=%{mschap:Challenge:-00} --nt-response=%{mschap:NT-Response:-00}"'>>/root/FR-Installer/ntlm_auth.tmp
+#####################
+#
+#
+#We NEED to fix this ABOVE.. -ADDOMAIN not carrying the variable .. sed it after dropping into the tmp files?
+#i.e.
+#sed -i "s/--domain=MYDOMAIN/--domain=$ADDOMAIN/" /etc/raddb/mods-enabled/ntlm_auth
+
 sed -i '83 r /root/FR-Installer/ntlm_auth.tmp' /etc/raddb/mods-enabled/mschap
 
 #Enable MAC Base Auth 
