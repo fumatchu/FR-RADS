@@ -237,6 +237,19 @@ echo "${green}"
 radtest -t mschap $FRUSER $FRPASS localhost 0 testing123
 echo "${textreset}"
 
+#Add MAC Examples to users file
+touch /root/FR-Installer/mac_auth_tmp
+echo "#####MAC Auth Examples#####" >> /root/FR-Installer/mac_auth_tmp
+echo "#If you are only using MAC based (Open) authentication, then the format would be the following:" >> /root/FR-Installer/mac_auth_tmp
+echo "#<MAC Address> Cleartext-Password := <MAC Address>, Calling-Station-Id == <MAC Address in CAPS with hyphens>" >> /root/FR-Installer/mac_auth_tmp
+echo "#This is an example:" >> /root/FR-Installer/mac_auth_tmp
+echo "#abdcef123456 Cleartext-Password := abdcef123456, Calling-Station-Id == AB-DC-EF-12-34-56" >> /root/FR-Installer/mac_auth_tmp
+echo " "  >> /root/FR-Installer/mac_auth_tmp
+echo "#If you are using IPSK with MAC, the following format would be needed:" >> /root/FR-Installer/mac_auth_tmp
+echo "#<MAC Address> Cleartext-Password := <MAC Address>, Calling-Station-Id == <MAC Address in CAPS with hyphens>" >> /root/FR-Installer/mac_auth_tmp
+echo "#         Tunnel-Password = <Tunnel Password>" >> /root/FR-Installer/mac_auth_tmp
+echo "#You MUST restart radiusd for a new entry to be registered" >> /root/FR-Installer/mac_auth_tmp
+sed -i '1 r /root/FR-Installer/nasclient' /etc/raddb/mods-config/files/authorize
 #clean up our mess
 sed -i '$ d' /root/.bash_profile
 rm -r -f /root/FR-Installer
