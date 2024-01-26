@@ -213,7 +213,7 @@ echo "}" >>/root/FR-Installer/nasclient
 sed -i '249 r /root/FR-Installer/nasclient' /etc/raddb/clients.conf
 
 
-Create certs
+#Create certs
 echo "Creating the default 60 day certs"
 echo "If you want to create your own self signed certs, please refer to"
 echo "the README file in /etc/raddb/certs/ and the F Installation and configuration guide at:"
