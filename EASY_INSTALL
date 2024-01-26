@@ -1,4 +1,7 @@
 #Installing
+#Install Rocky Minimal
+#Make sure you point the DNS to Active Directory Server.
+#After the GUI install: 
 #(Just copy and paste the following lines on the Rocky terminal)
 
 cd /root/
