@@ -40,14 +40,14 @@ echo "Please provide the AD Domain name (Realm):"
 echo "All CAPS (i.e TEST.INT)"
 echo " "
 read ADDOMAIN
-
+clear
 echo "Validating your Entries:"
 echo " "
-echo "Username: $FRUSER"
+echo "Username: ${green}$FRUSER${textreset}"
 echo " "
-echo "Password: $FRPASS"
+echo "Password: ${green}$FRPASS${textreset} "
 echo " "
-echo "Domain: $ADDOMAIN"
+echo "Domain: ${green}$ADDOMAIN${textreset}"
 echo " "
 read -p "Press any Key"
 clear
@@ -56,8 +56,9 @@ echo "Now we need to get time from your AD Server."
 echo " "
 echo "Please provide the IP/FQDN Address of your NTP/AD Server:"
 read NTP
+clear
 echo " "
-echo "You provided: $NTP"
+echo "You provided: ${green}$NTP${textreset}"
 echo " "
 read -p "Press any Key"
 
@@ -69,7 +70,7 @@ sed -i "/server /c\server $NTP iburst" /etc/chrony.conf
 sed -e '2d' /etc/chrony.conf
 systemctl restart chronyd
 clear
-echo "Sleeping for 10 seconds for chrony"
+echo ${red}"Syncronizong time, Please wait${textreset}"
 sleep 10s
 clear
 chronyc tracking
@@ -82,7 +83,7 @@ clear
 
 
 
-echo "Joining the Machine to AD."
+echo "Joining the Machine to Active Directory."
 echo " "
 echo "Please provide a user account that will allow you to join this server to the domain (i.e Administrator)"
 echo "Make sure it is just the username. WE DO NOT need the UPN of the account here"
