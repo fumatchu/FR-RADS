@@ -187,7 +187,7 @@ sed -i '285 r /root/FR-Installer/rewrite_MAC' /etc/raddb/sites-enabled/default
 
 clear
 #Add NAS Client Subnet
-echo " We are going to add the network/subnet for NAS Devices to talk to FreeRADIUS"
+echo "We are going to add the network/subnet for NAS Devices to talk to FreeRADIUS"
 echo "i.e This is the subnet of management IP addresses from Access Points, Switches, etc."
 echo "You can always add more then one in /etc/raddb/clients.conf"
 echo " "
