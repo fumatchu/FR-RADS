@@ -51,7 +51,7 @@ firewall-cmd --list-services --zone=public
 echo "${textreset}"
 
 read -p "Press Any Key to Continue"
-
+clear
 dnf -y install epel-release
 dnf -y install dnf-plugins-core
 dnf config-manager --set-enabled crb
