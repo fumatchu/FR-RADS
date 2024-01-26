@@ -186,10 +186,11 @@ clear
 #Add NAS Client Subnet
 echo "We are going to add the network/subnet for NAS Devices to talk to FreeRADIUS"
 echo "i.e This is the subnet of management IP addresses from Access Points, Switches, etc."
-echo "You can always add more then one in /etc/raddb/clients.conf"
+echo "You can always add more than one in /etc/raddb/clients.conf"
 echo " "
 echo "Please provide the subnet in CIDR notation"
-echo "i.e. 192.0.2.0/24"
+echo "(i.e. 192.0.2.0/24)"
+echo " "
 read CIDRNAS
 
 echo "Please provide the secret these NAS devices will be using:"
@@ -199,7 +200,8 @@ echo "You specified your network as:"
 echo " "
 echo "Network: ${green}$CIDRNAS${textreset}"
 echo " "
-echo " And this is your secret"
+echo "And this is your secret"
+echo" "
 echo "Password: ${green}$NASSECRET${textreset}"
 read -p "Press Any Key" 
 clear
