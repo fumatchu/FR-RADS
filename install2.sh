@@ -201,7 +201,7 @@ echo " "
 echo "Network: ${green}$CIDRNAS${textreset}"
 echo " "
 echo "And this is your secret"
-echo" "
+echo " "
 echo "Password: ${green}$NASSECRET${textreset}"
 read -p "Press Any Key" 
 clear
