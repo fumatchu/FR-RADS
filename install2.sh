@@ -249,7 +249,7 @@ echo "#If you are using IPSK with MAC, the following format would be needed:" >>
 echo "#<MAC Address> Cleartext-Password := <MAC Address>, Calling-Station-Id == <MAC Address in CAPS with hyphens>" >> /root/FR-Installer/mac_auth_tmp
 echo "#         Tunnel-Password = <Tunnel Password>" >> /root/FR-Installer/mac_auth_tmp
 echo "#You MUST restart radiusd for a new entry to be registered" >> /root/FR-Installer/mac_auth_tmp
-sed -i '2 r /root/FR-Installer/nasclient' /etc/raddb/mods-config/files/authorize
+sed -i '2 r /root/FR-Installer/mac_auth_tmp' /etc/raddb/mods-config/files/authorize
 #clean up our mess
 sed -i '$ d' /root/.bash_profile
 rm -r -f /root/FR-Installer
