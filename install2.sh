@@ -69,7 +69,7 @@ sed -i "/server /c\server $NTP iburst" /etc/chrony.conf
 sed -e '2d' /etc/chrony.conf
 systemctl restart chronyd
 clear
-echo ${red}"Syncronizong time, Please wait${textreset}"
+echo ${red}"Syncronizing time, Please wait${textreset}"
 sleep 10s
 clear
 chronyc tracking
@@ -92,7 +92,7 @@ read DOMAINADMIN
 echo " "
 
 echo " "
-echo "The screen may look frozen for a second.. Please wait"
+echo ${red}"The screen may look frozen for a second.. Please wait${tesxtreset}"
 realm join -U $DOMAINADMIN --client-software=winbind $ADDOMAIN
 echo " "
 echo " "
