@@ -74,7 +74,7 @@ echo " "
 echo " " 
 echo ${green}"We should be syncing time${textreset}"
 echo " "
-read -p "Press Any Key"
+sleep 8
 clear 
 
 
