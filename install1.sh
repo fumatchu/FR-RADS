@@ -50,7 +50,7 @@ echo
 firewall-cmd --list-services --zone=public
 echo "${textreset}"
 
-read -p "Press Any Key to Continue"
+sleep 8s
 clear
 dnf -y install epel-release
 dnf -y install dnf-plugins-core
