@@ -89,7 +89,7 @@ read DOMAINADMIN
 echo " "
 
 echo " "
-echo ${red}"The screen may look frozen for a second.. Please wait${textreset}"
+echo ${red}"The screen may look frozen for a second after the password is entered... Please wait${textreset}"
 realm join -U $DOMAINADMIN --client-software=winbind $ADDOMAIN
 echo " "
 echo " "
