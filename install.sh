@@ -134,7 +134,9 @@ Joining server to Domain $ADDOMAIN
 Please enter the Admin Password:
 ${red}The screen may look frozen for a second after the password is entered... Please wait${textreset}
 EOF
+sleep 8 
 realm join -U $DOMAINADMIN --client-software=winbind $ADDOMAIN
+sleep 8
 clear
 cat <<EOF
 dnf -y install epel-release
