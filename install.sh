@@ -365,7 +365,7 @@ If all tests completed successfully, the server is now ready to serve NAS endpoi
    3. Mac Auth with IPSK (Provide the entries in the users file)
 EOF
 cat <<EOF
-It's suggested that the server be rebooted before moving further
+It's suggested that the server be rebooted now
 EOF
 
 #clean up our mess
