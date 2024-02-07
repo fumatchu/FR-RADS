@@ -163,9 +163,9 @@ read -p "Press any Key to continue or Ctrl-C to Exit"
 clear
 read -p "Please provide the AD username for testing: " FRUSER
 read -p "Please provides this user's password: " FRPASS
-read -p "Please provide the AD Domain (CAPS Preferred) name (Realm): " ADDOMAIN
+read -p "Please provide the AD Domain (CAPS Preferred) name (Realm-i.e. DOMAIN.INT): " ADDOMAIN
 read -p "Please provide the IP/FQDN Address of your NTP/AD Server: " NTP
-read -p "Please provide the Administrator Account to join this system to AD: " DOMAINADMIN
+read -p "Please provide the Administrator Account to join this system to AD (Just username, not UPN): " DOMAINADMIN
 read -p "Please provide the subnet in CIDR notation for NAS devices to talk to radius: " CIDRNAS
 read -p "Please provide the password your NAS devices will be using: " NASSECRET
 
