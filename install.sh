@@ -101,6 +101,7 @@ This script will quickly configure a FreeRADIUS Server
 
 This will take around 10-15 minutes depending on your Internet connection
 and processor speed/memory
+ ${red} NOTE: This installer must run as the root account${textreset}
 EOF
 read -p "Press any Key to continue or Ctrl-C to Exit"
 
