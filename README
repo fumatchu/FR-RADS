@@ -26,7 +26,7 @@ Install the requirements needed by the samba source
     Join the Server to the AD domain
     Ask for an AD testing user and  password 
     Configure all files for ntlm_auth and winbind (permissions)
-    Test with Wbinfo -t fopr RPC calls 
+    Test with Wbinfo -t for RPC calls 
     Validate it can see Ad users and groups 
     Confirm that it can auth against AD with test user 
     Validate that MSCHAP is working from localhost. 
