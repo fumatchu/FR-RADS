@@ -46,7 +46,7 @@ EOF
 cat <<EOF
 The System must reboot for the changes to take effect. ${red}Please log back in as root.${textreset}
 The installer will continue when you log back in.
-If using SSH, please use the IP Address: $IPADDR
+If using SSH, please use the IP Address: $IP
 EOF
   read -p "Press Any Key to Continue"
   clear
