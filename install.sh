@@ -268,7 +268,7 @@ clear
 #Test MSCHAP
 cat <<EOF
 We are going to test MSCHAP from the local server
-If this returns${green}MS-MPPE-Encryption-Policy = Encryption-Allowed${textreset}, your server is configured properly
+If this returns ${green}MS-MPPE-Encryption-Policy = Encryption-Allowed${textreset}, your server is configured properly
 EOF
 echo "${green}"
 radtest -t mschap $FRUSER $FRPASS localhost 0 testing123
