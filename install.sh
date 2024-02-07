@@ -128,6 +128,9 @@ Password for NAS devices: ${green}$NASSECRET${textreset}
 EOF
 read -p "Press any Key to continue or Ctrl-C to Exit"
 clear
+dnf -y install epel-release
+dnf -y install dnf-plugins-core
+dnf config-manager --set-enabled crb
 dnf -y install realmd
 cat  <<EOF
 Joining server to Domain $ADDOMAIN 
