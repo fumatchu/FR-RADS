@@ -10,9 +10,18 @@ IP=$(hostname -I)
 FQDN=$(hostname)
 majoros=$(cat /etc/redhat-release | grep -Eo "[0-9]" | sed '$d')
 minoros=$(cat /etc/redhat-release | grep -Eo "[0-9]" | sed '1d')
-cat <<stop
+#Checking for version Information
+if [ "$majoros" != "9" ]; then
+echo ${red}"Sorry, but this installer only works on Rocky 9.X ${textreset}"
+echo "Please upgrade to ${green}Rocky 9.x${textreset}"
+echo "Exiting the installer..."
+exit 
+else
+echo ${green}"Version information matches..Continuing${textreset}"
+fi
+cat <<EOF
 Checking for static IP Address
-stop
+EOF
 sleep 1s
 
 #Detect Static or DHCP (IF not Static, change it)
