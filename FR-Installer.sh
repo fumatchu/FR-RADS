@@ -20,4 +20,4 @@ git clone https://github.com/fumatchu/FR-RADS.git /root/FR-Installer
 chmod 700 /root/FR-Installer/i*
 clear
 
-/root/FR-Installer/install1.sh
+/root/FR-Installer/install.sh
