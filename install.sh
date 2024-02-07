@@ -118,11 +118,6 @@ Before the Installer starts, please make sure you have the following information
 EOF
 read -p "Press any Key to continue or Ctrl-C to Exit"
 
-
-
-
-
-
 clear
 #Allow FreeRADIUS Ports on firewall-cmd
 echo "Updating Firewall Rules"
@@ -149,11 +144,11 @@ systemctl disable iscsi-onboot
 clear
 
 cat <<EOF
-The Installer will no ask some question from the checklist provided earlier. 
+The Installer will now ask some questions from the checklist provided earlier. 
 Please make sure you have this information
 EOF
-read -p "Press Any Key When Ready"
-
+read -p "Press any Key to continue or Ctrl-C to Exit"
+clear
 read -p "Please provide the AD username for testing: " FRUSER
 read -p "Please provides this user's password: " FRPASS
 read -p "Please provide the AD Domain (CAPS Preferred) name (Realm): " ADDOMAIN
