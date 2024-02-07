@@ -1,5 +1,5 @@
 #!/bin/sh
-#install.sh-FreeRADIUS
+#install.sh-FreeRADIUS- This install FreeRADIUS, Integrates system into AD, Creates MS-CHAP and MAC Based Auth and IPSK
 textreset=$(tput sgr0)
 red=$(tput setaf 1)
 yellow=$(tput setaf 3)
