@@ -44,7 +44,8 @@ EOF
   nmcli con mod $interface ipv4.dns $DNSSERVER
   hostnamectl set-hostname $HOSTNAME
 cat <<EOF
-The System must reboot for the changes to take effect. ${red}Please log back in as root.${textreset}
+The System must reboot for the changes to take effect. 
+${red}Please log back in as root.${textreset}
 The installer will continue when you log back in.
 If using SSH, please use the IP Address: $IP
 EOF
