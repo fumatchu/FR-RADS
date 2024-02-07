@@ -128,6 +128,7 @@ Password for NAS devices: ${green}$NASSECRET${textreset}
 EOF
 read -p "Press any Key to continue or Ctrl-C to Exit"
 clear
+dnf -y install realmd
 cat  <<EOF
 Joining server to Domain $ADDOMAIN 
 Please enter the Admin Password:
@@ -140,7 +141,7 @@ dnf -y install epel-release
 dnf -y install dnf-plugins-core
 dnf config-manager --set-enabled crb
 dnf -y update 
-dnf -y install cockpit cockpit-storaged ntsysv wget open-vm-tools freeradius freeradius-utils realmd
+dnf -y install cockpit cockpit-storaged ntsysv wget open-vm-tools freeradius freeradius-utils
 systemctl enable cockpit.socket 
 systemctl disable iscsi
 systemctl disable iscsi-onboot
