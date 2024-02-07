@@ -206,7 +206,10 @@ EOF
 echo ${green}
 wbinfo -t
 echo ${textreset}
-
+echo " "
+echo "The Installer will continue in a moment, otherwise Ctrl-C to stop processing"
+sleep 8
+clear
 #Validate winbind is working 
 cat <<EOF
 Please make sure you see your AD users.
@@ -216,8 +219,8 @@ echo ${green}
 wbinfo -u
 echo ${textreset}
 echo " "
-read -p "If successful, press any Key, otherwise Ctrl-C to stop processing"
-echo " "
+echo "The Installer will continue in a moment, otherwise Ctrl-C to stop processing"
+sleep 8
 clear
 
 #Validate Winbind Groups are seen
@@ -229,24 +232,25 @@ echo ${green}
 wbinfo -g
 echo ${textreset}
 echo " "
-read -p "If successful, press any Key, otherwise Ctrl-C to stop processing"
-
+echo "The Installer will continue in a moment, otherwise Ctrl-C to stop processing"
+sleep 8
 clear
 
 #Basic test against AD
 cat <<EOF
 We are going to login with the test account($FRUSER). Please make sure you see a valid response of:"
 
-echo ${green}"challenge/response password authentication succeeded${textreset}"
-echo " "
-echo "If you do not, then please resolve this issue first before proceeding."
+${green}"challenge/response password authentication succeeded${textreset}"
+If you do not, then please resolve this issue first before proceeding.
 EOF
 echo ${green}
 echo wbinfo -a $FRUSER%$FRPASS
 wbinfo -a $FRUSER%$FRPASS
 echo ${textreset}
 echo " "
-read -p "If successful, press any Key, otherwise Ctrl-C to stop processing"
+echo "The Installer will continue in a moment, otherwise Ctrl-C to stop processing"
+sleep 8
+clear
 
 #Add support for NTLM_BIND to AD
 sed -i '9i \       \ ntlm auth = mschapv2-and-ntlmv2-only' /etc/samba/smb.conf
@@ -311,7 +315,9 @@ If you want to create your own self signed certs, please refer to
 the README file in /etc/raddb/certs/ and the Installation and configuration guide at:
 https://github.com/fumatchu/FR-RADS
 EOF
-read -p "Press Any Key"
+echo "The Installer will continue in a moment, otherwise Ctrl-C to stop processing"
+sleep 10
+clear
 
 /etc/raddb/certs/bootstrap
 
@@ -329,7 +335,9 @@ EOF
 echo "${green}"
 radtest -t mschap $FRUSER $FRPASS localhost 0 testing123
 echo "${textreset}"
-read -p "Press Any Key"
+echo "The Installer will continue in a moment, otherwise Ctrl-C to stop processing"
+sleep 8
+clear
 
 #Add MAC Examples to users file
 touch /root/FR-Installer/mac_auth_tmp
