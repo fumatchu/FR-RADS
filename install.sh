@@ -187,8 +187,9 @@ echo ${green}
 wbinfo -u
 echo ${textreset}
 echo " "
-read -p "If successful, press any Key, otherwise Ctrl-C to stop processing"
-echo " "
+echo "The Installer will continue in a moment or Press Ctrl-C to Exit"
+sleep 8
+
 clear
 #Validate Winbind Groups are seen
 cat <<EOF
@@ -199,7 +200,9 @@ echo ${green}
 wbinfo -g
 echo ${textreset}
 echo " "
-read -p "If successful, press any Key, otherwise Ctrl-C to stop processing"
+
+echo "The Installer will continue in a moment or Press Ctrl-C to Exit"
+sleep 8
 clear
 #Basic test against AD
 cat <<EOF
@@ -216,7 +219,9 @@ echo ${green}
 echo wbinfo -a $FRUSER%$FRPASS
 wbinfo -a $FRUSER%$FRPASS | grep challenge
 echo ${textreset}
-read -p "If successful, press any Key, otherwise Ctrl-C to stop processing"
+echo " "
+echo "The Installer will continue in a moment or Press Ctrl-C to Exit"
+sleep 8
 
 #Add support for NTLM_BIND to AD
 sed -i '9i \       \ ntlm auth = mschapv2-and-ntlmv2-only' /etc/samba/smb.conf
@@ -262,7 +267,8 @@ If you want to create your own self signed certs, please refer to
 the README file in /etc/raddb/certs/ and the Installation and configuration guide at:
 https://github.com/fumatchu/FR-RADS
 EOF
-read -p "Press Any Key to continue"
+echo "The Installer will continue in a moment or Press Ctrl-C to Exit"
+sleep 10
 /etc/raddb/certs/bootstrap
 #Start radiusd
 echo "Starting radiusd and enabling for boot time"
@@ -277,6 +283,8 @@ EOF
 echo "${green}"
 radtest -t mschap $FRUSER $FRPASS localhost 0 testing123
 echo "${textreset}"
+echo "The Installer will continue in a moment or Press Ctrl-C to Exit"
+sleep 8
 #Add MAC Examples to users file
 touch /root/FR-Installer/mac_auth_tmp
 cat <<EOF > /root/FR-Installer/mac_auth_tmp
