@@ -34,11 +34,11 @@ read -p "Please provide the FQDN of this machine (machine.domain.com): " HOSTNAM
 clear
 cat <<EOF
 The following changes to the system will be configured:
-IP address: $IPADDR
-Gateway: $GW
-DNS Search: $DNSSEARCH
-DNS Server: $DNSSERVER
-HOSTNAME: $HOSTNAME
+IP address: ${green}$IPADDR${textreset}
+Gateway: ${green}$GW${textreset}
+DNS Search: ${green}$DNSSEARCH${textreset}
+DNS Server: ${green}$DNSSERVER${textreset}
+HOSTNAME: ${green}$HOSTNAME${textreset}
 EOF
 
   read -p "Press any Key to Continue"
