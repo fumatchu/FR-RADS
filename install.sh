@@ -104,28 +104,6 @@ Before the Installer starts, please make sure you have the following information
 EOF
 read -p "Press any Key to continue or Ctrl-C to Exit"
 clear
-#Allow FreeRADIUS Ports on firewall-cmd
-echo "Updating Firewall Rules"
-echo "${green} "
-firewall-cmd --add-service=radius --permanent
-firewall-cmd --reload
-clear
-echo ${green}"These are the services/ports now open on the server${textreset}"
-echo
-firewall-cmd --list-services --zone=public
-echo "${textreset}"
-echo "The Installer will continue in a moment or Press Ctrl-C to Exit"
-sleep 8s
-clear
-dnf -y install epel-release
-dnf -y install dnf-plugins-core
-dnf config-manager --set-enabled crb
-dnf -y update 
-dnf -y install cockpit cockpit-storaged ntsysv wget open-vm-tools freeradius freeradius-utils realmd
-systemctl enable cockpit.socket 
-systemctl disable iscsi
-systemctl disable iscsi-onboot
-clear
 cat <<EOF
 Please provide the following information:
 EOF
@@ -149,6 +127,38 @@ Password for NAS devices: ${green}$NASSECRET${textreset}
 EOF
 read -p "Press any Key to continue or Ctrl-C to Exit"
 clear
+cat  <<EOF
+Joining server to Domain $ADDOMAIN 
+Please enter the Admin Password:
+${red}The screen may look frozen for a second after the password is entered... Please wait${textreset}
+EOF
+realm join -U $DOMAINADMIN --client-software=winbind $ADDOMAIN
+clear
+cat <<EOF
+dnf -y install epel-release
+dnf -y install dnf-plugins-core
+dnf config-manager --set-enabled crb
+dnf -y update 
+dnf -y install cockpit cockpit-storaged ntsysv wget open-vm-tools freeradius freeradius-utils realmd
+systemctl enable cockpit.socket 
+systemctl disable iscsi
+systemctl disable iscsi-onboot
+clear
+#Allow FreeRADIUS Ports on firewall-cmd
+echo "Updating Firewall Rules"
+echo "${green} "
+firewall-cmd --add-service=radius --permanent
+firewall-cmd --reload
+clear
+echo ${green}"These are the services/ports now open on the server${textreset}"
+echo
+firewall-cmd --list-services --zone=public
+echo "${textreset}"
+echo "The Installer will continue in a moment or Press Ctrl-C to Exit"
+sleep 8s
+clear
+
+
 sed -i "/pool /c\server $NTP iburst" /etc/chrony.conf
 sed -i "/server /c\server $NTP iburst" /etc/chrony.conf
 sed -e '2d' /etc/chrony.conf
@@ -162,14 +172,7 @@ echo ${green}"We should be syncing time${textreset}"
 echo " "
 sleep 8
 clear 
-cat  <<EOF
-Joining server to Domain $ADDOMAIN 
-Please enter the Admin Password:
-${red}The screen may look frozen for a second after the password is entered... Please wait${textreset}
-EOF
-realm join -U $DOMAINADMIN --client-software=winbind $ADDOMAIN
-clear
-cat <<EOF
+
 Checking that RPC Calls are successful to Active Directory
 EOF
 echo ${green}
