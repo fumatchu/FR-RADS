@@ -149,9 +149,10 @@ systemctl disable iscsi-onboot
 clear
 
 cat <<EOF
-We are going to need a testing user for MSCHAP. It should already be a valid account in Active Directory
-Please provide the username and password for this account and the DOMAIN (REALM)
+The Installer will no ask some question from the checklist provided earlier. 
+Please make sure you have this information
 EOF
+read -p "Press Any Key When Ready"
 
 read -p "Please provide the AD username for testing: " FRUSER
 read -p "Please provides this user's password: " FRPASS
