@@ -47,6 +47,6 @@ Please see the EASY_INSTALL File
 
 cd /root/
 dnf -y install wget 
-wget https://raw.githubusercontent.com/fumatchu/RADS/main/DC-Installer.sh
-chmod 700 ./DC-Installer.sh
-/root/DC-Installer.sh
+wget https://raw.githubusercontent.com/fumatchu/FR-RADS/main/FR-Installer.sh
+chmod 700 ./FR-Installer.sh
+/root/FR-Installer.sh
