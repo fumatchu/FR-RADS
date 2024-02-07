@@ -96,9 +96,10 @@ Before the Installer starts, please make sure you have the following information
     1. ${yellow}An Active User in AD${textreset} that you can use to test the Radius Auth for MSCHAP.
     2. ${yellow}An Active Admin account${textreset} that you can use to join this server to the Windows domain
     3. Verify that this server is ${yellow}configured to use the DNS services of AD.${textreset}
-    4. Verify that you know the ${yellow}REALM of the AD environment${textreset} you wish to join
-    5. Make sure that you know the ${yellow}subnet, in CIDR notation${textreset} of NAS devices this server will accept
-    6. Make sure you have the ${yellow}password${textreset} you would like to use for your ${yellow}NAS devices${textreset} 
+    4. Please Make sure you know the ${yellow}NTP Server Address or FQDN${textreset} to sync time. This is usually your AD server.
+    5. Verify that you know the ${yellow}REALM of the AD environment${textreset} you wish to join
+    6. Make sure that you know the ${yellow}subnet, in CIDR notation${textreset} of NAS devices this server will accept
+    7. Make sure you have the ${yellow}password${textreset} you would like to use for your ${yellow}NAS devices${textreset} 
 
 *********************************************
 EOF
