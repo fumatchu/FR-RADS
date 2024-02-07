@@ -172,6 +172,13 @@ EOF
 read -p "Press any Key to continue or Ctrl-C to Exit"
 clear
 
+cat  <<EOF
+Joining server to Domain $ADDOMAIN 
+Please enter the Admin Password:
+${red}The screen may look frozen for a second after the password is entered... Please wait${textreset}
+EOF
+realm join -U $DOMAINADMIN --client-software=winbind $ADDOMAIN
+clear
 
 sed -i "/pool /c\server $NTP iburst" /etc/chrony.conf
 sed -i "/server /c\server $NTP iburst" /etc/chrony.conf
@@ -188,13 +195,6 @@ echo " "
 sleep 8
 clear 
 
-cat  <<EOF
-Joining server to Domain $ADDOMAIN 
-Please enter the Admin Password:
-${red}The screen may look frozen for a second after the password is entered... Please wait${textreset}
-EOF
-realm join -U $DOMAINADMIN --client-software=winbind $ADDOMAIN
-clear
 cat <<EOF
 Checking that RPC Calls are successful to Active Directory
 EOF
@@ -228,14 +228,14 @@ wbinfo -g
 echo ${textreset}
 echo " "
 echo "The Installer will continue in a moment, otherwise Ctrl-C to stop processing"
-sleep 8
+sleep 10
 clear
 
 #Basic test against AD
 cat <<EOF
-We are going to login with the test account($FRUSER). Please make sure you see a valid response of:"
+We are going to login with the test account($FRUSER). Please make sure you see a valid response of:
 
-${green}"challenge/response password authentication succeeded${textreset}"
+${green}challenge/response password authentication succeeded${textreset}
 If you do not, then please resolve this issue first before proceeding.
 EOF
 echo ${green}
@@ -244,7 +244,7 @@ wbinfo -a $FRUSER%$FRPASS
 echo ${textreset}
 echo " "
 echo "The Installer will continue in a moment, otherwise Ctrl-C to stop processing"
-sleep 8
+sleep 10
 clear
 
 #Add support for NTLM_BIND to AD
@@ -352,18 +352,26 @@ EOF
 
 sed -i '2 r /root/FR-Installer/mac_auth_tmp' /etc/raddb/mods-config/files/authorize
 
-echo "Installation Complete"
-read -p "Press a Key" 
+cat <<EOF
+********************************
+     Installation Complete
+********************************
+Example entries for MAC Auth and Mac with IPSK are included in:
+/etc/raddb/users at the top of the file. 
+
+If all tests completed successfully, the server is now ready to serve NAS endpoints for
+   1. 802.1x (PEAP and MS-CHAP)
+   2. Open MAC Auth (Provide the entries in the users file)
+   3. Mac Auth with IPSK (Provide the entries in the users file)
+EOF
+cat <<EOF
+It's suggested that the server be rebooted before moving further
+EOF
 
 #clean up our mess
 sed -i '$ d' /root/.bash_profile
 rm -r -f /root/FR-Installer
 rm -r -f /root/FR-Installer.sh
-
-cat <<EOF
-It's suggested to reboot the Server now"
-
-EOF
 
 while true; do
 
