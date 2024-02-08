@@ -20,7 +20,7 @@ The Script will do the following:
     EPEL
     CRB 
 Install the requirements needed by the samba source
-    Modify chrony to point to point to your AD environment
+    Modify chrony to point to your AD environment
     Download and install all updates
     Prompt you for time syncronization
     Join the Server to the AD domain
