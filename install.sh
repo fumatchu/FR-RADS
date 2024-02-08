@@ -187,7 +187,6 @@ clear
 
 cat  <<EOF
 Joining server to Domain $ADDOMAIN 
-Please enter the Admin Password:
 ${red}The screen may look frozen for a second after the password is entered... Please wait${textreset}
 EOF
 realm join -U $DOMAINADMIN --client-software=winbind $ADDOMAIN
