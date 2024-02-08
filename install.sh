@@ -142,7 +142,7 @@ echo "The Installer will continue in a moment or Press Ctrl-C to Exit"
 sleep 8s
 clear
 cat <<EOF
-${green}Downloading and installing updates {textreset}
+${green}Downloading and installing updates${textreset}
 EOF
 sleep 3s
 dnf -y install epel-release
