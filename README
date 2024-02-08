@@ -19,7 +19,7 @@ The Script will do the following:
   Enable the Rocky REPOS needed to build 
     EPEL
     CRB 
-Install the requirements needed by the samba source
+    Install the requirements
     Modify chrony to point to your AD environment
     Download and install all updates
     Prompt you for time syncronization
