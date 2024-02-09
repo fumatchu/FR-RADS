@@ -9,7 +9,7 @@ The installer will integrate this server into a pre-existing AD environment, via
 You should install Rocky from scratch. 
 You should make sure the server has a static IP (the script will check).
 During your setup, the hostname and domain name that you specify in the GUI installer of Rocky be what you want.
-You do not need to (nor should you) install anything from dnf EXCEPT wget to grab the first installer file.
+You do not need to (nor should you) install anything. Just a fresh, minimal install. The insatller will do the rest for you. 
 
 
 The Script will do the following:
