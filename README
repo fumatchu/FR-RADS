@@ -8,7 +8,7 @@ The installer will integrate this server into a pre-existing AD environment, via
 ####Pre-requisites
 You should install Rocky from scratch. 
 You should make sure the server has a static IP (the script will check).
-During your setup, the hostname and domain name that you specify in the GUI installer of Rocky be what you want.
+During your setup, the hostname and domain name that you specify in the GUI installer of Rocky be what you want (pointing to your AD environment).
 You do not need to (nor should you) install anything. Just a fresh, minimal install. The insatller will do the rest for you. 
 
 
