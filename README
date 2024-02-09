@@ -2,7 +2,7 @@ FreeRADIUS (R)ocky (A)ctive (D)irectory (S)cript Builder
 
 This is a script to allow a Rocky (RHEL) Server (9.x) to become an integrated Radius server to read from AD for 802.1x
 The installer will integrate this server into a pre-existing AD environment, via winbind (realmd) and configure itself for
-8021.x, local MAc Auth and Mac Auth IPSK in the users file. 
+8021.x, local MAC Auth and MAC Auth IPSK in the users file. 
 
 
 ####Pre-requisites
@@ -13,7 +13,7 @@ You do not need to (nor should you) install anything from dnf EXCEPT wget to gra
 
 
 The Script will do the following:
-  Validate that you have a static IP setup. If you do not it will prompt you.
+  Validate that you have a static IP setup. If you do not it will guide you through changing it.
   Sets SElinux
   Adds Firewall allowances
   Enable the Rocky REPOS needed to build 
@@ -24,10 +24,10 @@ The Script will do the following:
     Download and install all updates
     Prompt you for time syncronization
     Join the Server to the AD domain
-    Ask for an AD testing user and  password 
+    Ask for an AD testing user and password 
     Configure all files for ntlm_auth and winbind (permissions)
-    Test with Wbinfo -t for RPC calls 
-    Validate it can see Ad users and groups 
+    Test with wbinfo -t for RPC calls 
+    Validate it can see AD users and groups 
     Confirm that it can auth against AD with test user 
     Validate that MSCHAP is working from localhost. 
     Bootstrap local certificates for testing 
