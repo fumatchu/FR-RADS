@@ -279,7 +279,15 @@ sed -i '513i \       \ ntlm_auth' /etc/raddb/sites-enabled/default
 sed -i '226i \       \ #Added by FR-Installer' /etc/raddb/sites-enabled/inner-tunnel
 sed -i '227i \       \ ntlm_auth' /etc/raddb/sites-enabled/inner-tunnel
 
-
+#Update /etc/issue so we can see the hostname and IP address Before logging in
+rm -r -f /etc/issue
+touch /etc/issue
+cat <<EOF > /etc/issue
+\S
+Kernel \r on an \m
+Hostname: \n
+IP Address: \4
+EOF
 
 #Change permissions for winbind
 systemctl stop winbind
