@@ -149,7 +149,7 @@ dnf -y install epel-release
 dnf -y install dnf-plugins-core
 dnf config-manager --set-enabled crb
 dnf -y update 
-dnf -y install cockpit cockpit-storaged ntsysv wget open-vm-tools freeradius freeradius-utils realmd bind-utils dialog nano
+dnf -y install cockpit cockpit-storaged ntsysv wget open-vm-tools freeradius freeradius-utils realmd bind-utils dialog nano htop iptraf-ng mc
 systemctl disable iscsi
 systemctl disable iscsi-onboot
 clear
