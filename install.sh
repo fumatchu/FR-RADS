@@ -382,10 +382,9 @@ If all tests completed successfully, the server is now ready to serve NAS endpoi
    1. 802.1x (PEAP and MS-CHAP)
    2. Open MAC Auth (Provide the entries in the users file)
    3. Mac Auth with IPSK (Provide the entries in the users file)
+The Installer will continue in a moment
 EOF
-cat <<EOF
-It's suggested that the server be rebooted now
-EOF
+sleep 10
 
 #clean up our mess
 sed -i '$ d' /root/.bash_profile
@@ -397,12 +396,13 @@ cat  << EOF
 Installing Server Management
 ******************************
 sleep 3
-
+EOF
 cd /root/
 dnf -y install wget
 wget https://raw.githubusercontent.com/fumatchu/FR-RADS-SM/main/FR-RADS-SMInstaller.sh
 chmod 700 ./FR-RADS-SMInstaller.sh
 /root/FR-RADS-SMInstaller.sh
+
 
 while true; do
 
