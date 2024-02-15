@@ -392,6 +392,12 @@ sed -i '$ d' /root/.bash_profile
 rm -r -f /root/FR-Installer
 rm -r -f /root/FR-Installer.sh
 
+cat  << EOF
+******************************
+Installing Server Management
+******************************
+sleep 3
+
 while true; do
 
 read -p "Do you want to reboot now? (y/n) " yn
