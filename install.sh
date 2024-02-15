@@ -398,6 +398,12 @@ Installing Server Management
 ******************************
 sleep 3
 
+cd /root/
+dnf -y install wget
+wget https://raw.githubusercontent.com/fumatchu/FR-RADS-SM/main/FR-RADS-SMInstaller.sh
+chmod 700 ./FR-RADS-SMInstaller.sh
+/root/FR-RADS-SMInstaller.sh
+
 while true; do
 
 read -p "Do you want to reboot now? (y/n) " yn
