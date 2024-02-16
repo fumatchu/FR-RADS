@@ -395,22 +395,3 @@ dnf -y install wget
 wget https://raw.githubusercontent.com/fumatchu/FR-RADS-SM/main/FR-RADS-SMInstaller.sh
 chmod 700 ./FR-RADS-SMInstaller.sh
 /root/FR-RADS-SMInstaller.sh
-
-while true; do
-
-   read -p "Do you want to reboot now? (y/n) " yn
-
-   case $yn in
-   [yY])
-      reboot
-      break
-      ;;
-   [nN])
-      echo exiting...
-      exit
-      ;;
-   *) echo invalid response ;;
-   esac
-
-done
-exit
