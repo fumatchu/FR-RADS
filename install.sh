@@ -357,7 +357,7 @@ clear
 touch /root/FR-Installer/mac_auth_tmp
 cat <<EOF > /root/FR-Installer/mac_auth_tmp
 
-#####MAC Auth Examples#####" >> /root/FR-Installer/mac_auth_tmp
+##########################################*MAC Auth Examples*################################################
 #If you are only using MAC based (Open) authentication, then the format would be the following:
 #<MAC Address> Cleartext-Password := <MAC Address>, Calling-Station-Id == <MAC Address in CAPS with hyphens>
 #This is an example:
@@ -367,6 +367,7 @@ cat <<EOF > /root/FR-Installer/mac_auth_tmp
 #<MAC Address> Cleartext-Password := <MAC Address>, Calling-Station-Id == <MAC Address in CAPS with hyphens>
 #         Tunnel-Password = <Tunnel Password>"
 #You MUST restart radiusd for a new entry to be registered"
+############################################################################################################
 EOF
 
 sed -i '2 r /root/FR-Installer/mac_auth_tmp' /etc/raddb/mods-config/files/authorize
