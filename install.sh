@@ -387,8 +387,9 @@ cat <<EOF
 ******************************
 Installing Server Management
 ******************************
-sleep 3
+
 EOF
+sleep 3
 cd /root/
 dnf -y install wget
 wget https://raw.githubusercontent.com/fumatchu/FR-RADS-SM/main/FR-RADS-SMInstaller.sh
