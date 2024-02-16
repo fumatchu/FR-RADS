@@ -12,12 +12,12 @@ majoros=$(cat /etc/redhat-release | grep -Eo "[0-9]" | sed '$d')
 minoros=$(cat /etc/redhat-release | grep -Eo "[0-9]" | sed '1d')
 #Checking for version Information
 if [ "$majoros" != "9" ]; then
-echo ${red}"Sorry, but this installer only works on Rocky 9.X ${textreset}"
-echo "Please upgrade to ${green}Rocky 9.x${textreset}"
-echo "Exiting the installer..."
-exit 
+   echo ${red}"Sorry, but this installer only works on Rocky 9.X ${textreset}"
+   echo "Please upgrade to ${green}Rocky 9.x${textreset}"
+   echo "Exiting the installer..."
+   exit
 else
-echo ${green}"Version information matches..Continuing${textreset}"
+   echo ${green}"Version information matches..Continuing${textreset}"
 fi
 cat <<EOF
 Checking for static IP Address
@@ -27,21 +27,21 @@ sleep 1s
 #Detect Static or DHCP (IF not Static, change it)
 if [ -z "$interface" ]; then
    "Usage: $0 <interface>"
-  exit 1
+   exit 1
 fi
 
 method=$(nmcli -f ipv4.method con show $interface)
 
 if [ "$method" = "ipv4.method:                            auto" ]; then
-echo  ${red}"Interface $interface is using DHCP${textreset}"
-read -p "Please provide a static IP address in CIDR format (i.e 192.168.24.2/24): " IPADDR
-read -p "Please Provide a Default Gateway Address: " GW
-read -p "Please provide the domain search name (i.e. test.int): " DNSSEARCH
-read -p "Please provide an upstream DNS IP for resolution (AD Server): " DNSSERVER
-read -p "Please provide the FQDN of this machine (machine.domain.com): " HOSTNAME 
+   echo ${red}"Interface $interface is using DHCP${textreset}"
+   read -p "Please provide a static IP address in CIDR format (i.e 192.168.24.2/24): " IPADDR
+   read -p "Please Provide a Default Gateway Address: " GW
+   read -p "Please provide the domain search name (i.e. test.int): " DNSSEARCH
+   read -p "Please provide an upstream DNS IP for resolution (AD Server): " DNSSERVER
+   read -p "Please provide the FQDN of this machine (machine.domain.com): " HOSTNAME
 
-clear
-cat <<EOF
+   clear
+   cat <<EOF
 The following changes to the system will be configured:
 IP address: ${green}$IPADDR${textreset}
 Gateway: ${green}$GW${textreset}
@@ -50,37 +50,36 @@ DNS Server: ${green}$DNSSERVER${textreset}
 HOSTNAME: ${green}$HOSTNAME${textreset}
 EOF
 
-  read -p "Press any Key to Continue"
-  nmcli con mod $interface ipv4.address $IPADDR
-  nmcli con mod $interface ipv4.gateway $GW
-  nmcli con mod $interface ipv4.method manual
-  nmcli con mod $interface ipv4.dns-search $DNSSEARCH
-  nmcli con mod $interface ipv4.dns $DNSSERVER
-  hostnamectl set-hostname $HOSTNAME
-cat <<EOF
+   read -p "Press any Key to Continue"
+   nmcli con mod $interface ipv4.address $IPADDR
+   nmcli con mod $interface ipv4.gateway $GW
+   nmcli con mod $interface ipv4.method manual
+   nmcli con mod $interface ipv4.dns-search $DNSSEARCH
+   nmcli con mod $interface ipv4.dns $DNSSERVER
+   hostnamectl set-hostname $HOSTNAME
+   cat <<EOF
 The System must reboot for the changes to take effect. ${red}Please log back in as root.${textreset}
 The installer will continue when you log back in.
 If using SSH, please use the IP Address: $IPADDR
 EOF
-  read -p "Press Any Key to Continue"
-  clear
-  echo "/root/FR-Installer/install.sh" >> /root/.bash_profile
-  reboot 
-  exit
+   read -p "Press Any Key to Continue"
+   clear
+   echo "/root/FR-Installer/install.sh" >>/root/.bash_profile
+   reboot
+   exit
 else
-echo   ${green}"Interface $interface is using a static IP address ${textreset}"
+   echo ${green}"Interface $interface is using a static IP address ${textreset}"
 fi
-
 
 clear
 #Checking for version Information
 if [ "$majoros" != "9" ]; then
-echo ${red}"Sorry, but this installer only works on Rocky 9.X ${textreset}"
-echo "Please upgrade to ${green}Rocky 9.x${textreset}"
-echo "Exiting the installer..."
-exit 
+   echo ${red}"Sorry, but this installer only works on Rocky 9.X ${textreset}"
+   echo "Please upgrade to ${green}Rocky 9.x${textreset}"
+   echo "Exiting the installer..."
+   exit
 else
-echo ${green}"Version information matches..Continuing${textreset}"
+   echo ${green}"Version information matches..Continuing${textreset}"
 fi
 clear
 cat <<EOF
@@ -105,8 +104,7 @@ and processor speed/memory
 EOF
 read -p "Press any Key to continue or Ctrl-C to Exit"
 
-
-clear 
+clear
 
 cat <<EOF
 
@@ -148,8 +146,8 @@ sleep 3s
 dnf -y install epel-release
 dnf -y install dnf-plugins-core
 dnf config-manager --set-enabled crb
-dnf -y update 
-dnf -y install cockpit cockpit-storaged ntsysv wget open-vm-tools freeradius freeradius-utils realmd bind-utils 
+dnf -y update
+dnf -y install cockpit cockpit-storaged ntsysv wget open-vm-tools freeradius freeradius-utils realmd bind-utils
 systemctl disable iscsi
 systemctl disable iscsi-onboot
 clear
@@ -168,7 +166,6 @@ read -p "Please provide the Administrator Account to join this system to AD (Jus
 read -p "Please provide the subnet in CIDR notation for NAS devices to talk to radius: " CIDRNAS
 read -p "Please provide the password your NAS devices will be using: " NASSECRET
 
-
 clear
 cat <<EOF
 Validating your Entries:
@@ -184,7 +181,7 @@ EOF
 read -p "Press any Key to continue or Ctrl-C to Exit"
 clear
 
-cat  <<EOF
+cat <<EOF
 Joining server to Domain $ADDOMAIN 
 ${red}The screen may look frozen for up to a minute after the password is entered... Please wait${textreset}
 EOF
@@ -204,7 +201,7 @@ chronyc tracking
 echo ${green}"We should be syncing time${textreset}"
 echo " "
 sleep 8
-clear 
+clear
 
 cat <<EOF
 Checking that RPC Calls are successful to Active Directory
@@ -216,7 +213,7 @@ echo " "
 echo "The Installer will continue in a moment, otherwise Ctrl-C to stop processing"
 sleep 8
 clear
-#Validate winbind is working 
+#Validate winbind is working
 cat <<EOF
 Please make sure you see your AD users.
 If you do not, then please resolve this issue first before proceeding.
@@ -268,10 +265,6 @@ sed -i 's\/path/to/ntlm_auth\/usr/bin/ntlm_auth\' /etc/raddb/mods-enabled/ntlm_a
 echo "Adding proper domain"
 sed -i "s/--domain=MYDOMAIN/--domain=$ADDOMAIN/" /etc/raddb/mods-enabled/ntlm_auth
 
-
-
-
-
 #insert ntlm_auth line 512
 sed -i '512i \       \ #Added by FR-Installer' /etc/raddb/sites-enabled/default
 sed -i '513i \       \ ntlm_auth' /etc/raddb/sites-enabled/default
@@ -282,7 +275,7 @@ sed -i '227i \       \ ntlm_auth' /etc/raddb/sites-enabled/inner-tunnel
 #Update /etc/issue so we can see the hostname and IP address Before logging in
 rm -r -f /etc/issue
 touch /etc/issue
-cat <<EOF > /etc/issue
+cat <<EOF >/etc/issue
 \S
 Kernel \r on an \m
 Hostname: \n
@@ -297,21 +290,19 @@ systemctl start winbind
 
 #Add Modified ntlm_auth to mschap
 touch /root/FR-Installer/ntlm_auth.tmp
-echo 'ntlm_auth = "/usr/bin/ntlm_auth --request-nt-key --allow-mschapv2 --username=%{mschap:User-Name:-None} --domain=%{%{mschap:NT-Domain}:-MYDOMAIN} --challenge=%{mschap:Challenge:-00} --nt-response=%{mschap:NT-Response:-00}"'>>/root/FR-Installer/ntlm_auth.tmp
+echo 'ntlm_auth = "/usr/bin/ntlm_auth --request-nt-key --allow-mschapv2 --username=%{mschap:User-Name:-None} --domain=%{%{mschap:NT-Domain}:-MYDOMAIN} --challenge=%{mschap:Challenge:-00} --nt-response=%{mschap:NT-Response:-00}"' >>/root/FR-Installer/ntlm_auth.tmp
 sed -i "s/-MYDOMAIN/-$ADDOMAIN/" /root/FR-Installer/ntlm_auth.tmp
 sed -i '83 r /root/FR-Installer/ntlm_auth.tmp' /etc/raddb/mods-enabled/mschap
 
-#Enable MAC Base Auth 
+#Enable MAC Base Auth
 touch /root/FR-Installer/rewrite_MAC
-echo "rewrite_calling_station_id" >> /root/FR-Installer/rewrite_MAC
+echo "rewrite_calling_station_id" >>/root/FR-Installer/rewrite_MAC
 sed -i '285 r /root/FR-Installer/rewrite_MAC' /etc/raddb/sites-enabled/default
 
 clear
 
-
-
 touch /root/FR-Installer/nasclient
-cat <<EOF > /root/FR-Installer/nasclient
+cat <<EOF >/root/FR-Installer/nasclient
 #Added by FR-Installer
 client private-network-1 {
        ipaddr        = $CIDRNAS
@@ -338,7 +329,7 @@ clear
 #Start radiusd
 echo "Starting radiusd and enabling for boot time"
 systemctl enable radiusd
-systemctl start radiusd 
+systemctl start radiusd
 clear
 
 #Test MSCHAP
@@ -355,7 +346,7 @@ clear
 
 #Add MAC Examples to users file
 touch /root/FR-Installer/mac_auth_tmp
-cat <<EOF > /root/FR-Installer/mac_auth_tmp
+cat <<EOF >/root/FR-Installer/mac_auth_tmp
 
 ##########################################*MAC Auth Examples*################################################
 #If you are only using MAC based (Open) authentication, then the format would be the following:
@@ -392,7 +383,7 @@ sed -i '$ d' /root/.bash_profile
 rm -r -f /root/FR-Installer
 rm -r -f /root/FR-Installer.sh
 
-cat  << EOF
+cat <<EOF
 ******************************
 Installing Server Management
 ******************************
@@ -404,18 +395,21 @@ wget https://raw.githubusercontent.com/fumatchu/FR-RADS-SM/main/FR-RADS-SMInstal
 chmod 700 ./FR-RADS-SMInstaller.sh
 /root/FR-RADS-SMInstaller.sh
 
-
 while true; do
 
-read -p "Do you want to reboot now? (y/n) " yn
+   read -p "Do you want to reboot now? (y/n) " yn
 
-case $yn in 
-   [yY] ) reboot;
-      break;;
-   [nN] ) echo exiting...;
-      exit;;
-   * ) echo invalid response;;
-esac
+   case $yn in
+   [yY])
+      reboot
+      break
+      ;;
+   [nN])
+      echo exiting...
+      exit
+      ;;
+   *) echo invalid response ;;
+   esac
 
 done
 exit
