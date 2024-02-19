@@ -375,6 +375,7 @@ If all tests completed successfully, the server is now ready to serve NAS endpoi
    2. Open MAC Auth (Provide the entries in the users file)
    3. Mac Auth with IPSK (Provide the entries in the users file)
 The Installer will continue in a moment
+Getting Ready to install Server Management
 EOF
 sleep 10
 
