@@ -293,8 +293,7 @@ systemctl start winbind
 
 #Add Modified ntlm_auth to mschap
 touch /root/FR-Installer/ntlm_auth.tmp
-echo 'ntlm_auth = "/usr/bin/ntlm_auth --request-nt-key --allow-mschapv2 --username=%{mschap:User-Name:-None} --domain=%{%{mschap:NT-Domain}:-MYDOMAIN} --challenge=%{mschap:Challenge:-00} --nt-response=%{m
-schap:NT-Response:-00}' >>/root/FR-Installer/ntlm_auth.tmp
+echo 'ntlm_auth = "/usr/bin/ntlm_auth --request-nt-key --allow-mschapv2 --username=%{mschap:User-Name:-None} --domain=%{%{mschap:NT-Domain}:-MYDOMAIN} --challenge=%{mschap:Challenge:-00} --nt-response=%{mschap:NT-Response:-00}' >>/root/FR-Installer/ntlm_auth.tmp
 sed -i "s/-MYDOMAIN/-$ADDOMAIN/" /root/FR-Installer/ntlm_auth.tmp
 echo "--require-membership-of='$ADDOMAIN\\$GROUP'"\" >>/root/FR-Installer/ntlm_auth.tmp
 awk '{if(NR%2==0) {print var,$0} else {var=$0}}' /root/FR-Installer/ntlm_auth.tmp > /root/FR-Installer/ntlm_auth.tmp.final
