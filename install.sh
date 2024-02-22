@@ -161,7 +161,7 @@ EOF
 read -p "Press any Key to continue or Ctrl-C to Exit"
 clear
 read -p "Please provide the AD username for testing: " FRUSER
-read -p "Please provide the AD Group we will check for meembership: " GROUP
+read -p "Please provide the AD Group we will check for membership: " GROUP
 read -p "Please provides this user's password: " FRPASS
 read -p "Please provide the AD Domain (CAPS Preferred) name (Realm-i.e. DOMAIN.INT): " ADDOMAIN
 read -p "Please provide the IP/FQDN Address of your NTP/AD Server: " NTP
