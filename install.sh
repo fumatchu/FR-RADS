@@ -113,6 +113,8 @@ Checklist:
 Before the Installer starts, please make sure you have the following information
 
     1. ${yellow}An Active User in AD${textreset} that you can use to test the Radius Auth for MSCHAP.
+    2. ${yellow}An AD Group that the User in #1 is associated${textreset}. Something like "Wireless Users". 
+          ${yellow}(FR will look for an approved Group to allow access)${textreset} 
     2. ${yellow}An Active Admin account${textreset} that you can use to join this server to the Windows domain
     3. Verify that this server is ${yellow}configured to use the DNS services of AD.${textreset}
     4. Verify that you know the ${yellow}REALM of the AD environment${textreset} you wish to join
@@ -159,6 +161,7 @@ EOF
 read -p "Press any Key to continue or Ctrl-C to Exit"
 clear
 read -p "Please provide the AD username for testing: " FRUSER
+read -p "Please provide the AD Group we will check for meembership: " GROUP
 read -p "Please provides this user's password: " FRPASS
 read -p "Please provide the AD Domain (CAPS Preferred) name (Realm-i.e. DOMAIN.INT): " ADDOMAIN
 read -p "Please provide the IP/FQDN Address of your NTP/AD Server: " NTP
@@ -290,9 +293,12 @@ systemctl start winbind
 
 #Add Modified ntlm_auth to mschap
 touch /root/FR-Installer/ntlm_auth.tmp
-echo 'ntlm_auth = "/usr/bin/ntlm_auth --request-nt-key --allow-mschapv2 --username=%{mschap:User-Name:-None} --domain=%{%{mschap:NT-Domain}:-MYDOMAIN} --challenge=%{mschap:Challenge:-00} --nt-response=%{mschap:NT-Response:-00}"' >>/root/FR-Installer/ntlm_auth.tmp
+echo 'ntlm_auth = "/usr/bin/ntlm_auth --request-nt-key --allow-mschapv2 --username=%{mschap:User-Name:-None} --domain=%{%{mschap:NT-Domain}:-MYDOMAIN} --challenge=%{mschap:Challenge:-00} --nt-response=%{m
+schap:NT-Response:-00}' >>/root/FR-Installer/ntlm_auth.tmp
 sed -i "s/-MYDOMAIN/-$ADDOMAIN/" /root/FR-Installer/ntlm_auth.tmp
-sed -i '83 r /root/FR-Installer/ntlm_auth.tmp' /etc/raddb/mods-enabled/mschap
+echo "--require-membership-of='$ADDOMAIN\\$GROUP'"\" >>/root/FR-Installer/ntlm_auth.tmp
+awk '{if(NR%2==0) {print var,$0} else {var=$0}}' /root/FR-Installer/ntlm_auth.tmp > /root/FR-Installer/ntlm_auth.tmp.final
+sed -i '83 r /root/FR-Installer/ntlm_auth.tmp.final' /etc/raddb/mods-enabled/mschap
 
 #Enable MAC Base Auth
 touch /root/FR-Installer/rewrite_MAC
