@@ -114,7 +114,12 @@ Before the Installer starts, please make sure you have the following information
 
     1. ${yellow}An Active User in AD${textreset} that you can use to test the Radius Auth for MSCHAP.
     2. ${yellow}An AD Group that the User in #1 is associated${textreset}. Something like "Wireless Users". 
-          ${yellow}(FR will look for an approved Group to allow access)${textreset} 
+          ${yellow}(FR will look for an approved Group to allow access to the network)${textreset} 
+          If using RADS installer (Server Management Program)
+          AD Management--> Create New Group
+          AD Management--> Add User
+          AD Management--> Move Users to Groups
+          ${red}(Make sure your case and spacing is noted as you must put it in exactly as you created it)${textreset}
     2. ${yellow}An Active Admin account${textreset} that you can use to join this server to the Windows domain
     3. Verify that this server is ${yellow}configured to use the DNS services of AD.${textreset}
     4. Verify that you know the ${yellow}REALM of the AD environment${textreset} you wish to join
