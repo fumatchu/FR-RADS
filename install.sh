@@ -1,23 +1,33 @@
 #!/bin/sh
 #install.sh-FreeRADIUS
-textreset=$(tput sgr0)
-red=$(tput setaf 1)
-yellow=$(tput setaf 3)
-green=$(tput setaf 2)
-interface=$(nmcli | grep "connected to" | cut -c22-)
+TEXTRESET=$(tput sgr0)
+RED=$(tput setaf 1)
+YELLOW=$(tput setaf 3)
+GREEN=$(tput setaf 2)
+INTERFACE=$(nmcli | grep "connected to" | cut -c22-)
 FQDN=$(hostname)
 IP=$(hostname -I)
 FQDN=$(hostname)
-majoros=$(cat /etc/redhat-release | grep -Eo "[0-9]" | sed '$d')
-minoros=$(cat /etc/redhat-release | grep -Eo "[0-9]" | sed '1d')
+USER=$(whoami)
+MAJOROS=$(cat /etc/redhat-release | grep -Eo "[0-9]" | sed '$d')
+DETECTIP=$(nmcli -f ipv4.method con show $INTERFACE)
+ADREALM=$(hostname | sed 's/...//' | sed -e 's/\(.*\)/\U\1/')
+
+#Checking for user permissions
+if [ "$USER" = "root" ]; then
+   echo " "
+else
+   echo ${RED}"This program must be run as root ${TEXTRESET}"
+   echo "Exiting"
+fi
 #Checking for version Information
-if [ "$majoros" != "9" ]; then
-   echo ${red}"Sorry, but this installer only works on Rocky 9.X ${textreset}"
-   echo "Please upgrade to ${green}Rocky 9.x${textreset}"
+if [ "$MAJOROS" = "9" ]; then
+   echo " "
+else
+   echo ${RED}"Sorry, but this installer only works on Rocky 9.X ${TEXTRESET}"
+   echo "Please upgrade to ${GREEN}Rocky 9.x${TEXTRESET}"
    echo "Exiting the installer..."
    exit
-else
-   echo ${green}"Version information matches..Continuing${textreset}"
 fi
 cat <<EOF
 Checking for static IP Address
@@ -25,41 +35,39 @@ EOF
 sleep 1s
 
 #Detect Static or DHCP (IF not Static, change it)
-if [ -z "$interface" ]; then
+if [ -z "$INTERFACE" ]; then
    "Usage: $0 <interface>"
    exit 1
 fi
 
-method=$(nmcli -f ipv4.method con show $interface)
-
-if [ "$method" = "ipv4.method:                            auto" ]; then
-   echo ${red}"Interface $interface is using DHCP${textreset}"
+if [ "$DETECTIP" = "ipv4.method:                            auto" ]; then
+   echo ${red}"Interface $INTERFACE is using DHCP${TEXTRESET}"
    read -p "Please provide a static IP address in CIDR format (i.e 192.168.24.2/24): " IPADDR
    read -p "Please Provide a Default Gateway Address: " GW
    read -p "Please provide the FQDN of this machine (machine.domain.com): " HOSTNAME
    read -p "Please provide an upstream DNS IP for resolution (AD Server): " DNSSERVER
    read -p "Please provide the domain search name (i.e. domain.com): " DNSSEARCH
-   
-
    clear
+
    cat <<EOF
 The following changes to the system will be configured:
-IP address: ${green}$IPADDR${textreset}
-Gateway: ${green}$GW${textreset}
-DNS Search: ${green}$DNSSEARCH${textreset}
-DNS Server: ${green}$DNSSERVER${textreset}
-HOSTNAME: ${green}$HOSTNAME${textreset}
+IP address: ${GREEN}$IPADDR${TEXTRESET}
+Gateway: ${GREEN}$GW${TEXTRESET}
+DNS Search: ${GREEN}$DNSSEARCH${TEXTRESET}
+DNS Server: ${GREEN}$DNSSERVER${TEXTRESET}
+HOSTNAME: ${GREEN}$HOSTNAME${TEXTRESET}
 EOF
 
    read -p "Press any Key to Continue"
-   nmcli con mod $interface ipv4.address $IPADDR
-   nmcli con mod $interface ipv4.gateway $GW
-   nmcli con mod $interface ipv4.method manual
-   nmcli con mod $interface ipv4.dns-search $DNSSEARCH
-   nmcli con mod $interface ipv4.dns $DNSSERVER
+   nmcli con mod $INTERFACE ipv4.address $IPADDR
+   nmcli con mod $INTERFACE ipv4.gateway $GW
+   nmcli con mod $INTERFACE ipv4.method manual
+   nmcli con mod $INTERFACE ipv4.dns-search $DNSSEARCH
+   nmcli con mod $INTERFACE ipv4.dns $DNSSERVER
    hostnamectl set-hostname $HOSTNAME
+
    cat <<EOF
-The System must reboot for the changes to take effect. ${red}Please log back in as root.${textreset}
+The System must reboot for the changes to take effect. ${red}Please log back in as root.${TEXTRESET}
 The installer will continue when you log back in.
 If using SSH, please use the IP Address: $IPADDR
 EOF
@@ -69,25 +77,15 @@ EOF
    reboot
    exit
 else
-   echo ${green}"Interface $interface is using a static IP address ${textreset}"
+   echo ${GREEN}"Interface $INTERFACE is using a static IP address ${TEXTRESET}"
 fi
+clear
 
-clear
-#Checking for version Information
-if [ "$majoros" != "9" ]; then
-   echo ${red}"Sorry, but this installer only works on Rocky 9.X ${textreset}"
-   echo "Please upgrade to ${green}Rocky 9.x${textreset}"
-   echo "Exiting the installer..."
-   exit
-else
-   echo ${green}"Version information matches..Continuing${textreset}"
-fi
-clear
 cat <<EOF
 
 *********************************************
 
-This script was created for ${green}Rocky 9.x${textreset}
+This script was created for ${GREEN}Rocky 9.x${TEXTRESET}
 This script will quickly configure a FreeRADIUS Server
 
  What this script does:
@@ -101,10 +99,9 @@ This script will quickly configure a FreeRADIUS Server
 
 This will take around 10-15 minutes depending on your Internet connection
 and processor speed/memory
- ${red} NOTE: This installer must run as the root account${textreset}
+ ${red} NOTE: This installer must run as the root account${TEXTRESET}
 EOF
 read -p "Press any Key to continue or Ctrl-C to Exit"
-
 clear
 
 cat <<EOF
@@ -113,19 +110,19 @@ cat <<EOF
 Checklist:
 Before the Installer starts, please make sure you have the following information
 
-    1. ${yellow}An Active User in AD${textreset} that you can use to test the Radius Auth for MSCHAP.
-    2. ${yellow}An AD Group that the User in #1 is associated${textreset}. Something like "Wireless Users". 
-          ${yellow}(FR will look for an approved Group to allow access to the network)${textreset} 
+    1. ${yellow}An Active User in AD${TEXTRESET} that you can use to test the Radius Auth for MSCHAP.
+    2. ${yellow}An AD Group that the User in #1 is associated${TEXTRESET}. Something like "Wireless Users". 
+          ${yellow}(FR will look for an approved Group to allow access to the network)${TEXTRESET} 
           If using RADS installer (Server Management Program)
           AD Management--> Create New Group
           AD Management--> Add User
           AD Management--> Move Users to Groups
-          ${red}(Make sure your case and spacing is noted as you must put it in exactly as you created it)${textreset}
-    2. ${yellow}An Active Admin account${textreset} that you can use to join this server to the Windows domain
-    3. Verify that this server is ${yellow}configured to use the DNS services of AD.${textreset}
-    4. Verify that you know the ${yellow}REALM of the AD environment${textreset} you wish to join
-    5. Make sure that you know the ${yellow}subnet, in CIDR notation${textreset} of NAS devices this server will accept
-    6. Make sure you have the ${yellow}password${textreset} you would like to use for your ${yellow}NAS devices${textreset} 
+          ${red}(Make sure your case and spacing is noted as you must put it in exactly as you created it)${TEXTRESET}
+    2. ${yellow}An Active Admin account${TEXTRESET} that you can use to join this server to the Windows domain
+    3. Verify that this server is ${yellow}configured to use the DNS services of AD.${TEXTRESET}
+    4. Verify that you know the ${yellow}REALM of the AD environment${TEXTRESET} you wish to join
+    5. Make sure that you know the ${yellow}subnet, in CIDR notation${TEXTRESET} of NAS devices this server will accept
+    6. Make sure you have the ${yellow}password${TEXTRESET} you would like to use for your ${yellow}NAS devices${TEXTRESET} 
 
 *********************************************
 
@@ -136,19 +133,19 @@ read -p "Press any Key to continue or Ctrl-C to Exit"
 clear
 #Allow FreeRADIUS Ports on firewall-cmd
 echo "Updating Firewall Rules"
-echo "${green} "
+echo "${GREEN} "
 firewall-cmd --add-service=radius --permanent
 firewall-cmd --reload
 clear
-echo ${green}"These are the services/ports now open on the server${textreset}"
+echo ${GREEN}"These are the services/ports now open on the server${TEXTRESET}"
 echo
 firewall-cmd --list-services --zone=public
-echo "${textreset}"
+echo "${TEXTRESET}"
 echo "The Installer will continue in a moment or Press Ctrl-C to Exit"
 sleep 8s
 clear
 cat <<EOF
-${green}Downloading and installing updates${textreset}
+${GREEN}Downloading and installing updates${TEXTRESET}
 EOF
 sleep 3s
 dnf -y install epel-release
@@ -163,13 +160,14 @@ clear
 cat <<EOF
 The Installer will now ask some questions from the checklist provided earlier. 
 Please make sure you have this information
+
 EOF
 read -p "Press any Key to continue or Ctrl-C to Exit"
 clear
 read -p "Please provide the AD username for testing: " FRUSER
 read -p "Please provides this user's password: " FRPASS
 read -p "Please provide the AD Group we will check for membership: " GROUP
-read -p "Please provide the AD Domain (CAPS Preferred) name (Realm-i.e. DOMAIN.INT): " ADDOMAIN
+read -p "Please provide the AD Domain (CAPS Preferred) name (Realm-i.e. $ADREALM): " ADDOMAIN
 read -p "Please provide the IP/FQDN Address of your NTP/AD Server: " NTP
 read -p "Please provide the Administrator Account to join this system to AD (Just username, not UPN): " DOMAINADMIN
 read -p "Please provide the subnet in CIDR notation for NAS devices to talk to radius: " CIDRNAS
@@ -178,13 +176,14 @@ read -p "Please provide the shared secret your NAS devices will be using: " NASS
 clear
 cat <<EOF
 Validating your Entries:
-Radius Testing Username: ${green}$FRUSER${textreset}
-Radius Testing Password: ${green}$FRPASS${textreset} 
-Domain: ${green}$ADDOMAIN${textreset}
-NTP Server: ${green}$NTP${textreset}
-AD Administrator Account: ${green}$DOMAINADMIN${textreset}
-NAS client Subnet: ${green}$CIDRNAS${textreset}
-Password for NAS devices: ${green}$NASSECRET${textreset}
+Radius Testing Username: ${GREEN}$FRUSER${TEXTRESET}
+Radius Testing Password: ${GREEN}$FRPASS${TEXTRESET} 
+GRoup Membership Name: ${GREEN}$GROUP${TEXTRESET}
+Domain: ${GREEN}$ADDOMAIN${TEXTRESET}
+NTP Server: ${GREEN}$NTP${TEXTRESET}
+AD Administrator Account: ${GREEN}$DOMAINADMIN${TEXTRESET}
+NAS client Subnet: ${GREEN}$CIDRNAS${TEXTRESET}
+Password for NAS devices: ${GREEN}$NASSECRET${TEXTRESET}
 EOF
 
 read -p "Press any Key to continue or Ctrl-C to Exit"
@@ -192,7 +191,7 @@ clear
 
 cat <<EOF
 Joining server to Domain $ADDOMAIN 
-${red}The screen may look frozen for up to a minute after the password is entered... Please wait${textreset}
+${red}The screen may look frozen for up to a minute after the password is entered... Please wait${TEXTRESET}
 EOF
 realm join -U $DOMAINADMIN --client-software=winbind $ADDOMAIN
 clear
@@ -202,47 +201,49 @@ sed -i "/server /c\server $NTP iburst" /etc/chrony.conf
 sed -e '2d' /etc/chrony.conf
 systemctl restart chronyd
 clear
-echo ${red}"Syncronizing time, Please wait${textreset}"
+echo ${red}"Syncronizing time, Please wait${TEXTRESET}"
 sleep 10s
 clear
 chronyc tracking
 
-echo ${green}"We should be syncing time${textreset}"
+echo ${GREEN}"We should be syncing time${TEXTRESET}"
 echo " "
 sleep 8
 clear
 
+#Validate winbind is working
 cat <<EOF
 Checking that RPC Calls are successful to Active Directory
 EOF
-echo ${green}
+echo ${GREEN}
 wbinfo -t
-echo ${textreset}
+echo ${TEXTRESET}
 echo " "
 echo "The Installer will continue in a moment, otherwise Ctrl-C to stop processing"
 sleep 8
 clear
-#Validate winbind is working
+
+#Validate winbind sees users
 cat <<EOF
 Please make sure you see your AD users.
 If you do not, then please resolve this issue first before proceeding.
 EOF
-echo ${green}
+echo ${GREEN}
 wbinfo -u
-echo ${textreset}
+echo ${TEXTRESET}
 echo " "
 echo "The Installer will continue in a moment, otherwise Ctrl-C to stop processing"
 sleep 8
 clear
 
-#Validate Winbind Groups are seen
+#Validate winbind groups are seen
 cat <<EOF
 Please make sure you see your AD groups.
 If you do not, then please resolve this issue first before proceeding.
 EOF
-echo ${green}
+echo ${GREEN}
 wbinfo -g
-echo ${textreset}
+echo ${TEXTRESET}
 echo " "
 echo "The Installer will continue in a moment, otherwise Ctrl-C to stop processing"
 sleep 10
@@ -250,15 +251,15 @@ clear
 
 #Basic test against AD
 cat <<EOF
-We are going to login with the test account($FRUSER). Please make sure you see a valid response of:
+We are going to login with the test account ${GREEN}($FRUSER)${TEXTRESET}. Please make sure you see a valid response of:
 
-${green}challenge/response password authentication succeeded${textreset}
+${GREEN}challenge/response password authentication succeeded${TEXTRESET}
 If you do not, then please resolve this issue first before proceeding.
+
 EOF
-echo ${green}
-echo wbinfo -a $FRUSER%$FRPASS
+echo ${GREEN}
 wbinfo -a $FRUSER%$FRPASS
-echo ${textreset}
+echo ${TEXTRESET}
 echo " "
 echo "The Installer will continue in a moment, otherwise Ctrl-C to stop processing"
 sleep 10
@@ -267,14 +268,14 @@ clear
 #Add support for NTLM_BIND to AD
 sed -i '9i \       \ ntlm auth = mschapv2-and-ntlmv2-only' /etc/samba/smb.conf
 
-#Modify PATH and DOMAIN
+#Modify PATH and DOMAIN for ntlm_auth
 echo "Adding ntlm_auth"
 sed -i 's\/path/to/ntlm_auth\/usr/bin/ntlm_auth\' /etc/raddb/mods-enabled/ntlm_auth
 
 echo "Adding proper domain"
 sed -i "s/--domain=MYDOMAIN/--domain=$ADDOMAIN/" /etc/raddb/mods-enabled/ntlm_auth
 
-#insert ntlm_auth line 512
+#Insert ntlm_auth line 512 for inner-tunnel and default
 sed -i '512i \       \ #Added by FR-Installer' /etc/raddb/sites-enabled/default
 sed -i '513i \       \ ntlm_auth' /etc/raddb/sites-enabled/default
 
@@ -302,7 +303,7 @@ touch /root/FR-Installer/ntlm_auth.tmp
 echo 'ntlm_auth = "/usr/bin/ntlm_auth --request-nt-key --allow-mschapv2 --username=%{mschap:User-Name:-None} --domain=%{%{mschap:NT-Domain}:-MYDOMAIN} --challenge=%{mschap:Challenge:-00} --nt-response=%{mschap:NT-Response:-00}' >>/root/FR-Installer/ntlm_auth.tmp
 sed -i "s/-MYDOMAIN/-$ADDOMAIN/" /root/FR-Installer/ntlm_auth.tmp
 echo "--require-membership-of='$ADDOMAIN\\$GROUP'"\" >>/root/FR-Installer/ntlm_auth.tmp
-awk '{if(NR%2==0) {print var,$0} else {var=$0}}' /root/FR-Installer/ntlm_auth.tmp > /root/FR-Installer/ntlm_auth.tmp.final
+awk '{if(NR%2==0) {print var,$0} else {var=$0}}' /root/FR-Installer/ntlm_auth.tmp >/root/FR-Installer/ntlm_auth.tmp.final
 sed -i '83 r /root/FR-Installer/ntlm_auth.tmp.final' /etc/raddb/mods-enabled/mschap
 
 #Enable MAC Base Auth
@@ -312,6 +313,7 @@ sed -i '285 r /root/FR-Installer/rewrite_MAC' /etc/raddb/sites-enabled/default
 
 clear
 
+#Create our client CIDR for NAS access
 touch /root/FR-Installer/nasclient
 cat <<EOF >/root/FR-Installer/nasclient
 #Added by FR-Installer
@@ -331,6 +333,7 @@ If you want to create your own self signed certs
 please use the server management program (server-manager).
 In the FreeRADIUS module, there is an option to generate 
 new certificates (Generate self-signed certs)
+
 EOF
 echo "The Installer will continue in a moment, otherwise Ctrl-C to stop processing"
 sleep 10
@@ -347,11 +350,12 @@ clear
 #Test MSCHAP
 cat <<EOF
 We are going to test MSCHAP from the local server
-If this returns allowed, your server is configured properly
+If this returns ${GREEN}Allowed${TEXTRESET}, your server is configured properly
+
 EOF
-echo "${green}"
-radtest -t mschap $FRUSER $FRPASS localhost 0 testing123
-echo "${textreset}"
+echo "${GREEN}"
+radtest -t mschap $FRUSER $FRPASS localhost 0 testing123 | grep Allowed
+echo "${TEXTRESET}"
 echo "The Installer will continue in a moment, otherwise Ctrl-C to stop processing"
 sleep 8
 clear
@@ -365,41 +369,70 @@ cat <<EOF >/root/FR-Installer/mac_auth_tmp
 #<MAC Address> Cleartext-Password := <MAC Address>, Calling-Station-Id == <MAC Address in CAPS with hyphens>
 #This is an example:
 #abdcef123456 Cleartext-Password := abdcef123456, Calling-Station-Id == AB-DC-EF-12-34-56
-
 #If you are using IPSK with MAC, the following format would be needed:
 #<MAC Address> Cleartext-Password := <MAC Address>, Calling-Station-Id == <MAC Address in CAPS with hyphens>
 #         Tunnel-Password = <Tunnel Password>"
 #You MUST restart radiusd for a new entry to be registered"
 ############################################################################################################
+#BEGIN SERVER-MANAGEMENT INSERTIONS
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+##########################################################################################################
 EOF
 
 sed -i '2 r /root/FR-Installer/mac_auth_tmp' /etc/raddb/mods-config/files/authorize
 
 cat <<EOF
-********************************
-     Installation Complete
-********************************
+${GREEN}********************************
+     Server Installation Complete
+********************************${TEXTRESET}
+
 Example entries for MAC Auth and Mac with IPSK are included in:
 /etc/raddb/users at the top of the file. 
 
 If all tests completed successfully, the server is now ready to serve NAS endpoints for
-   1. 802.1x (PEAP and MS-CHAP)
-   2. Open MAC Auth (Provide the entries in the users file)
-   3. Mac Auth with IPSK (Provide the entries in the users file)
+   1. 802.1x (PEAP and MS-CHAP) 
+         (Make sure your AD users are a Member of the group: ${GREEN}$GROUP${TEXTRESET})
+   2. Open MAC Auth (Provide the entries in the users file or user ${GREEN}server-manager${TEXTRESET})
+   3. Mac Auth with IPSK (Provide the entries in the users file or use ${GREEN}server-manager${TEXTRESET})
 The Installer will continue in a moment
-Getting Ready to install Server Management
+
+${YELLOW}Getting Ready to install Server Management${TEXTRESET}
+
 EOF
 sleep 10
 
-#clean up our mess
+#Clean up FR Install files
 sed -i '$ d' /root/.bash_profile
 rm -r -f /root/FR-Installer
 rm -r -f /root/FR-Installer.sh
 
 cat <<EOF
-******************************
+${GREEN}******************************
 Installing Server Management
-******************************
+******************************${TEXTRESET}
 
 EOF
 sleep 3
