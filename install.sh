@@ -67,7 +67,7 @@ EOF
    hostnamectl set-hostname $HOSTNAME
 
    cat <<EOF
-The System must reboot for the changes to take effect. ${red}Please log back in as root.${TEXTRESET}
+The System must reboot for the changes to take effect. ${RED}Please log back in as root.${TEXTRESET}
 The installer will continue when you log back in.
 If using SSH, please use the IP Address: $IPADDR
 EOF
@@ -99,7 +99,7 @@ This script will quickly configure a FreeRADIUS Server
 
 This will take around 10-15 minutes depending on your Internet connection
 and processor speed/memory
- ${red} NOTE: This installer must run as the root account${TEXTRESET}
+
 EOF
 read -p "Press any Key to continue or Ctrl-C to Exit"
 clear
@@ -117,7 +117,7 @@ Before the Installer starts, please make sure you have the following information
           AD Management--> Create New Group
           AD Management--> Add User
           AD Management--> Move Users to Groups
-          ${red}(Make sure your case and spacing is noted as you must put it in exactly as you created it)${TEXTRESET}
+          ${RED}(Make sure your case and spacing is noted as you must put it in exactly as you created it)${TEXTRESET}
     2. ${yellow}An Active Admin account${TEXTRESET} that you can use to join this server to the Windows domain
     3. Verify that this server is ${yellow}configured to use the DNS services of AD.${TEXTRESET}
     4. Verify that you know the ${yellow}REALM of the AD environment${TEXTRESET} you wish to join
@@ -191,7 +191,7 @@ clear
 
 cat <<EOF
 Joining server to Domain $ADDOMAIN 
-${red}The screen may look frozen for up to a minute after the password is entered... Please wait${TEXTRESET}
+${RED}The screen may look frozen for up to a minute after the password is entered... Please wait${TEXTRESET}
 EOF
 realm join -U $DOMAINADMIN --client-software=winbind $ADDOMAIN
 clear
@@ -201,7 +201,7 @@ sed -i "/server /c\server $NTP iburst" /etc/chrony.conf
 sed -e '2d' /etc/chrony.conf
 systemctl restart chronyd
 clear
-echo ${red}"Syncronizing time, Please wait${TEXTRESET}"
+echo ${RED}"Syncronizing time, Please wait${TEXTRESET}"
 sleep 10s
 clear
 chronyc tracking
