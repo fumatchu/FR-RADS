@@ -213,7 +213,7 @@ clear
 
 #Validate winbind is working
 cat <<EOF
-Checking that RPC Calls are successful to Active Directory
+${GREEN} Testing RPC to Active Directory${TEXTRESET}
 EOF
 echo ${GREEN}
 wbinfo -t
@@ -225,6 +225,7 @@ clear
 
 #Validate winbind sees users
 cat <<EOF
+${GREEN}AD Users${TEXTRESET}
 Please make sure you see your AD users.
 If you do not, then please resolve this issue first before proceeding.
 EOF
@@ -238,6 +239,7 @@ clear
 
 #Validate winbind groups are seen
 cat <<EOF
+${GREEN}AD Groups${TEXTRESET}
 Please make sure you see your AD groups.
 If you do not, then please resolve this issue first before proceeding.
 EOF
@@ -251,6 +253,7 @@ clear
 
 #Basic test against AD
 cat <<EOF
+${GREEN}Test a winbind login${TEXTRESET}
 We are going to login with the test account ${GREEN}($FRUSER)${TEXTRESET}. Please make sure you see a valid response of:
 
 ${GREEN}challenge/response password authentication succeeded${TEXTRESET}
@@ -327,6 +330,7 @@ clear
 
 #Create certs
 cat <<EOF
+${GREEN}Certificates${TEXTRESET}
 Creating the default 60 day certs
 
 If you want to create your own self signed certs
@@ -342,14 +346,13 @@ clear
 /etc/raddb/certs/bootstrap
 
 #Start radiusd
-echo "Starting radiusd and enabling for boot time"
 systemctl enable radiusd
 systemctl start radiusd
 clear
 
 #Test MSCHAP
 cat <<EOF
-We are going to test MSCHAP from the local server
+${GREEN}Testing MS-CHAP from local server${TEXTRESET}
 If this returns ${GREEN}Allowed${TEXTRESET}, your server is configured properly
 
 EOF
