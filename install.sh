@@ -410,7 +410,7 @@ sed -i '2 r /root/FR-Installer/mac_auth_tmp' /etc/raddb/mods-config/files/author
 
 cat <<EOF
 ${GREEN}********************************
-     Server Installation Complete
+   Server Installation Complete
 ********************************${TEXTRESET}
 
 Example entries for MAC Auth and Mac with IPSK are included in:
