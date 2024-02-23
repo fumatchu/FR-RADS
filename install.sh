@@ -41,7 +41,7 @@ if [ -z "$INTERFACE" ]; then
 fi
 
 if [ "$DETECTIP" = "ipv4.method:                            auto" ]; then
-   echo ${red}"Interface $INTERFACE is using DHCP${TEXTRESET}"
+   echo ${RED}"Interface $INTERFACE is using DHCP${TEXTRESET}"
    read -p "Please provide a static IP address in CIDR format (i.e 192.168.24.2/24): " IPADDR
    read -p "Please Provide a Default Gateway Address: " GW
    read -p "Please provide the FQDN of this machine (machine.domain.com): " HOSTNAME
