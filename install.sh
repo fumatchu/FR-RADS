@@ -8,6 +8,7 @@ INTERFACE=$(nmcli | grep "connected to" | cut -c22-)
 FQDN=$(hostname)
 IP=$(hostname -I)
 FQDN=$(hostname)
+DOMAIN=$(hostname | sed 's/^[^.:]*[.:]//')
 USER=$(whoami)
 MAJOROS=$(cat /etc/redhat-release | grep -Eo "[0-9]" | sed '$d')
 DETECTIP=$(nmcli -f ipv4.method con show $INTERFACE)
@@ -167,7 +168,7 @@ clear
 read -p "Please provide the AD username for testing: " FRUSER
 read -p "Please provides this user's password: " FRPASS
 read -p "Please provide the AD Group we will check for membership: " GROUP
-read -p "Please provide the AD Domain (CAPS Preferred) name (Realm-i.e. $ADREALM): " ADDOMAIN
+read -p "Please provide the AD Domain (CAPS Preferred) name (Realm-i.e. $DOMAIN ): " ADDOMAIN
 read -p "Please provide the IP/FQDN Address of your NTP/AD Server: " NTP
 read -p "Please provide the Administrator Account to join this system to AD (Just username, not UPN): " DOMAINADMIN
 read -p "Please provide the subnet in CIDR notation for NAS devices to talk to radius: " CIDRNAS
