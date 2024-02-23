@@ -327,9 +327,10 @@ clear
 cat <<EOF
 Creating the default 60 day certs
 
-If you want to create your own self signed certs, please refer to
-the README file in /etc/raddb/certs/ and the Installation and configuration guide at:
-https://github.com/fumatchu/FR-RADS
+If you want to create your own self signed certs
+please use the server management program (server-manager).
+In the FreeRADIUS module, there is an option to generate 
+new certificates
 EOF
 echo "The Installer will continue in a moment, otherwise Ctrl-C to stop processing"
 sleep 10
