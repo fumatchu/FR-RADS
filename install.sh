@@ -110,19 +110,19 @@ cat <<EOF
 Checklist:
 Before the Installer starts, please make sure you have the following information
 
-    1. ${yellow}An Active User in AD${TEXTRESET} that you can use to test the Radius Auth for MSCHAP.
-    2. ${yellow}An AD Group that the User in #1 is associated${TEXTRESET}. Something like "Wireless Users". 
-          ${yellow}(FR will look for an approved Group to allow access to the network)${TEXTRESET} 
+    1. ${YELLOW}An Active User in AD${TEXTRESET} that you can use to test the Radius Auth for MSCHAP.
+    2. ${YELLOW}An AD Group that the User in #1 is associated${TEXTRESET}. Something like "Wireless Users". 
+          ${YELLOW}(FR will look for an approved Group to allow access to the network)${TEXTRESET} 
           If using RADS installer (Server Management Program)
           AD Management--> Create New Group
           AD Management--> Add User
           AD Management--> Move Users to Groups
           ${RED}(Make sure your case and spacing is noted as you must put it in exactly as you created it)${TEXTRESET}
-    2. ${yellow}An Active Admin account${TEXTRESET} that you can use to join this server to the Windows domain
-    3. Verify that this server is ${yellow}configured to use the DNS services of AD.${TEXTRESET}
-    4. Verify that you know the ${yellow}REALM of the AD environment${TEXTRESET} you wish to join
-    5. Make sure that you know the ${yellow}subnet, in CIDR notation${TEXTRESET} of NAS devices this server will accept
-    6. Make sure you have the ${yellow}password${TEXTRESET} you would like to use for your ${yellow}NAS devices${TEXTRESET} 
+    2. ${YELLOW}An Active Admin account${TEXTRESET} that you can use to join this server to the Windows domain
+    3. Verify that this server is ${YELLOW}configured to use the DNS services of AD.${TEXTRESET}
+    4. Verify that you know the ${YELLOW}REALM of the AD environment${TEXTRESET} you wish to join
+    5. Make sure that you know the ${YELLOW}subnet, in CIDR notation${TEXTRESET} of NAS devices this server will accept
+    6. Make sure you have the ${YELLOW}password${TEXTRESET} you would like to use for your ${YELLOW}NAS devices${TEXTRESET} 
 
 *********************************************
 
