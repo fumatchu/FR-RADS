@@ -370,13 +370,12 @@ cat <<EOF >/root/FR-Installer/mac_auth_tmp
 
 ##########################################*MAC Auth Examples*################################################
 #If you are only using MAC based (Open) authentication, then the format would be the following:
-#<MAC Address> Cleartext-Password := <MAC Address>, Calling-Station-Id == <MAC Address in CAPS with hyphens>
-#This is an example:
 #abdcef123456 Cleartext-Password := abdcef123456, Calling-Station-Id == AB-DC-EF-12-34-56
 #If you are using IPSK with MAC, the following format would be needed:
 #<MAC Address> Cleartext-Password := <MAC Address>, Calling-Station-Id == <MAC Address in CAPS with hyphens>
-#         Tunnel-Password = <Tunnel Password>"
-#You MUST restart radiusd for a new entry to be registered"
+#         Tunnel-Password = <Tunnel Password> <--This must be indented
+#You MUST restart radiusd for a new entry to be considered active
+#If you are manually editing this file, DO NOT USE server-management GUI to manage it, CHOOSE ONE OR THE OTHER APPROACH
 ############################################################################################################
 #BEGIN SERVER-MANAGEMENT INSERTIONS
 #
