@@ -382,8 +382,13 @@ cat <<EOF >/root/FR-Installer/mac_auth_tmp
 #
 #
 #
-##########################################################################################################
+############################################################################################################
 #END SERVER-MANAGEMENT INSERTIONS
+#
+#IF YOU ARE MANUALLY ADDING ENTRIES OR ADDING EN MASSE PLACE THEM BELOW THIS LINE
+############################################################################################################
+#THE FORMAT SHOULD BE 2 LINES FOR MAC AUTH (ENTRY, DESCRIPTION), 3 LINES FOR MAC AUTH iPSK (ENTRY, TUNNEL, DESCRIPTION)
+#OTHERWISE IF YOU USE SERVER MANAGER TO DELETE LINES IT MAY MISTAKENLY REMOVE THE WRONG LINE
 EOF
 
 sed -i '2 r /root/FR-Installer/mac_auth_tmp' /etc/raddb/mods-config/files/authorize
@@ -406,7 +411,7 @@ The Installer will continue in a moment
 ${YELLOW}Getting Ready to install Server Management${TEXTRESET}
 
 EOF
-sleep 10
+sleep 12
 
 #Clean up FR Install files
 sed -i '$ d' /root/.bash_profile
