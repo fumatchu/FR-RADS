@@ -99,7 +99,7 @@ If using SSH, please use the IP Address: ${NMCLIIP}
 EOF
   read -p "Press Any Key to Continue"
   clear
-  echo "/root/ADDCInstaller/install.sh" >>/root/.bash_profile
+  echo "/root/FR-Installer/install.sh" >>/root/.bash_profile
   reboot
   exit
 fi
