@@ -12,7 +12,6 @@ DOMAIN=$(hostname | sed 's/^[^.:]*[.:]//' |sed -e 's/\(.*\)/\U\1/')
 USER=$(whoami)
 MAJOROS=$(cat /etc/redhat-release | grep -Eo "[0-9]" | sed '$d')
 DETECTIP=$(nmcli -f ipv4.method con show $INTERFACE)
-ADREALM=$(hostname | sed 's/...//' | sed -e 's/\(.*\)/\U\1/')
 NMCLIIP=$(nmcli | grep inet4 | sed '$d'| cut -c7- |cut -d / -f1)
 
 #Checking for user permissions
