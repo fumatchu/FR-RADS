@@ -13,6 +13,7 @@ USER=$(whoami)
 MAJOROS=$(cat /etc/redhat-release | grep -Eo "[0-9]" | sed '$d')
 DETECTIP=$(nmcli -f ipv4.method con show $INTERFACE)
 ADREALM=$(hostname | sed 's/...//' | sed -e 's/\(.*\)/\U\1/')
+NMCLIIP=$(nmcli | grep inet4 | sed '$d'| cut -c7- |cut -d / -f1)
 
 #Checking for user permissions
 if [ "$USER" = "root" ]; then
@@ -45,9 +46,9 @@ if [ "$DETECTIP" = "ipv4.method:                            auto" ]; then
    echo ${RED}"Interface $INTERFACE is using DHCP${TEXTRESET}"
    read -p "Please provide a static IP address in CIDR format (i.e 192.168.24.2/24): " IPADDR
    read -p "Please Provide a Default Gateway Address: " GW
-   read -p "Please provide the FQDN of this machine (machine.domain.com): " HOSTNAME
-   read -p "Please provide an upstream DNS IP for resolution (AD Server): " DNSSERVER
-   read -p "Please provide the domain search name (i.e. domain.com): " DNSSEARCH
+   read -p "Please provide the FQDN of this machine: " HOSTNAME
+   read -p "Please provide the IP address of the Acitve Dircetory server: " DNSSERVER
+   read -p "Please provide the domain search name:: " DNSSEARCH
    clear
 
    cat <<EOF
@@ -81,6 +82,25 @@ else
    echo ${GREEN}"Interface $INTERFACE is using a static IP address ${TEXTRESET}"
 fi
 clear
+if [ "$FQDN" = "localhost.localdomain" ]; then
+  cat <<EOF
+${RED}This system is still using the default hostname (localhost.localdomain)${TEXTRESET}
+
+EOF
+  read -p "Please provide a valid FQDN for this machine: " HOSTNAME
+  hostnamectl set-hostname $HOSTNAME
+   cat <<EOF
+The System must reboot for the changes to take effect. 
+${RED}Please log back in as root.${TEXTRESET}
+The installer will continue when you log back in.
+If using SSH, please use the IP Address: ${NMCLIIP}
+
+EOF
+  read -p "Press Any Key to Continue"
+  clear
+  echo "/root/FR-Installer/install.sh" >>/root/.bash_profile
+  reboot
+  exit
 
 cat <<EOF
 
