@@ -82,6 +82,39 @@ else
 fi
 clear
 
+
+if [ "$FQDN" = "localhost.localdomain" ]; then
+  cat <<EOF
+${RED}This system is still using the default hostname (localhost.localdomain)${TEXTRESET}
+
+EOF
+  read -p "Please provide a valid FQDN for this machine: " HOSTNAME
+  hostnamectl set-hostname $HOSTNAME
+  cat <<EOF
+The System must reboot for the changes to take effect.
+${RED}Please log back in as root.${TEXTRESET}
+The installer will continue when you log back in.
+If using SSH, please use the IP Address: ${NMCLIIP}
+
+EOF
+  read -p "Press Any Key to Continue"
+  clear
+  echo "/root/ADDCInstaller/install.sh" >>/root/.bash_profile
+  reboot
+  exit
+fi
+
+clear
+
+
+
+
+
+
+
+
+
+
 cat <<EOF
 
 *********************************************
@@ -92,9 +125,9 @@ This script will quickly configure a FreeRADIUS Server
  What this script does:
     1. Update and install all dependencies for FreeRADIUS.
     2. Add radius ports to the Firewall
-    3. Integrates this server into AD 
+    3. Integrates this server into AD
     4. Configures winbind, PEAP/MS-CHAP, MAC Auth and Mac Auth with IPSK
-    5. Tests winbind, MS-CHAP and FreeRadius 
+    5. Tests winbind, MS-CHAP and FreeRadius
 
 *********************************************
 
@@ -112,8 +145,8 @@ Checklist:
 Before the Installer starts, please make sure you have the following information
 
     1. ${YELLOW}An Active User in AD${TEXTRESET} that you can use to test the Radius Auth for MSCHAP.
-    2. ${YELLOW}An AD Group that the User in #1 is associated${TEXTRESET}. Something like "Wireless Users". 
-          ${YELLOW}(FR will look for an approved Group to allow access to the network)${TEXTRESET} 
+    2. ${YELLOW}An AD Group that the User in #1 is associated${TEXTRESET}. Something like "Wireless Users".
+          ${YELLOW}(FR will look for an approved Group to allow access to the network)${TEXTRESET}
           If using RADS installer (Server Management Program)
           AD Management--> Create New Group
           AD Management--> Add User
@@ -123,7 +156,7 @@ Before the Installer starts, please make sure you have the following information
     3. Verify that this server is ${YELLOW}configured to use the DNS services of AD.${TEXTRESET}
     4. Verify that you know the ${YELLOW}REALM of the AD environment${TEXTRESET} you wish to join
     5. Make sure that you know the ${YELLOW}subnet, in CIDR notation${TEXTRESET} of NAS devices this server will accept
-    6. Make sure you have the ${YELLOW}password${TEXTRESET} you would like to use for your ${YELLOW}NAS devices${TEXTRESET} 
+    6. Make sure you have the ${YELLOW}password${TEXTRESET} you would like to use for your ${YELLOW}NAS devices${TEXTRESET}
 
 *********************************************
 
@@ -159,7 +192,7 @@ systemctl disable iscsi-onboot
 clear
 
 cat <<EOF
-The Installer will now ask some questions from the checklist provided earlier. 
+The Installer will now ask some questions from the checklist provided earlier.
 Please make sure you have this information
 
 EOF
@@ -178,7 +211,7 @@ clear
 cat <<EOF
 Validating your Entries:
 Radius Testing Username: ${GREEN}$FRUSER${TEXTRESET}
-Radius Testing Password: ${GREEN}$FRPASS${TEXTRESET} 
+Radius Testing Password: ${GREEN}$FRPASS${TEXTRESET}
 GRoup Membership Name: ${GREEN}$GROUP${TEXTRESET}
 Domain: ${GREEN}$ADDOMAIN${TEXTRESET}
 NTP Server: ${GREEN}$NTP${TEXTRESET}
@@ -191,7 +224,7 @@ read -p "Press any Key to continue or Ctrl-C to Exit"
 clear
 
 cat <<EOF
-Joining server to Domain $ADDOMAIN 
+Joining server to Domain $ADDOMAIN
 ${RED}The screen may look frozen for up to a minute after the password is entered... Please wait${TEXTRESET}
 EOF
 realm join -U $DOMAINADMIN --client-software=winbind $ADDOMAIN
@@ -304,7 +337,8 @@ systemctl start winbind
 
 #Add Modified ntlm_auth to mschap
 touch /root/FR-Installer/ntlm_auth.tmp
-echo 'ntlm_auth = "/usr/bin/ntlm_auth --request-nt-key --allow-mschapv2 --username=%{mschap:User-Name:-None} --domain=%{%{mschap:NT-Domain}:-MYDOMAIN} --challenge=%{mschap:Challenge:-00} --nt-response=%{mschap:NT-Response:-00}' >>/root/FR-Installer/ntlm_auth.tmp
+echo 'ntlm_auth = "/usr/bin/ntlm_auth --request-nt-key --allow-mschapv2 --username=%{mschap:User-Name:-None} --domain=%{%{mschap:NT-Domain}:-MYDOMAIN} --challenge=%{mscha
+p:Challenge:-00} --nt-response=%{mschap:NT-Response:-00}' >>/root/FR-Installer/ntlm_auth.tmp
 sed -i "s/-MYDOMAIN/-$ADDOMAIN/" /root/FR-Installer/ntlm_auth.tmp
 echo "--require-membership-of='$ADDOMAIN\\$GROUP'"\" >>/root/FR-Installer/ntlm_auth.tmp
 awk '{if(NR%2==0) {print var,$0} else {var=$0}}' /root/FR-Installer/ntlm_auth.tmp >/root/FR-Installer/ntlm_auth.tmp.final
@@ -336,7 +370,7 @@ Creating the default 60 day certs
 
 If you want to create your own self signed certs
 please use the server management program (server-manager).
-In the FreeRADIUS module, there is an option to generate 
+In the FreeRADIUS module, there is an option to generate
 new certificates (Generate self-signed certs)
 
 EOF
@@ -399,10 +433,10 @@ ${GREEN}********************************
 ********************************${TEXTRESET}
 
 Example entries for MAC Auth and Mac with IPSK are included in:
-/etc/raddb/users at the top of the file. 
+/etc/raddb/users at the top of the file.
 
 If all tests completed successfully, the server is now ready to serve NAS endpoints for
-   1. 802.1x (PEAP and MS-CHAP) 
+   1. 802.1x (PEAP and MS-CHAP)
          (Make sure your AD users are a Member of the group: ${GREEN}$GROUP${TEXTRESET})
    2. Open MAC Auth (Provide the entries in the users file or user ${GREEN}server-manager${TEXTRESET})
    3. Mac Auth with IPSK (Provide the entries in the users file or use ${GREEN}server-manager${TEXTRESET})
