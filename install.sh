@@ -81,25 +81,6 @@ else
    echo ${GREEN}"Interface $INTERFACE is using a static IP address ${TEXTRESET}"
 fi
 clear
-if [ "$FQDN" = "localhost.localdomain" ]; then
-  cat <<EOF
-${RED}This system is still using the default hostname (localhost.localdomain)${TEXTRESET}
-
-EOF
-  read -p "Please provide a valid FQDN for this machine: " HOSTNAME
-  hostnamectl set-hostname $HOSTNAME
-   cat <<EOF
-The System must reboot for the changes to take effect. 
-${RED}Please log back in as root.${TEXTRESET}
-The installer will continue when you log back in.
-If using SSH, please use the IP Address: ${NMCLIIP}
-
-EOF
-  read -p "Press Any Key to Continue"
-  clear
-  echo "/root/FR-Installer/install.sh" >>/root/.bash_profile
-  reboot
-  exit
 
 cat <<EOF
 
