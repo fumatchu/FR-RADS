@@ -177,7 +177,7 @@ dnf -y install epel-release
 dnf -y install dnf-plugins-core
 dnf config-manager --set-enabled crb
 dnf -y update
-dnf -y install ntsysv wget open-vm-tools oddjob oddjob-mkhomedir samba-winbind samba-winbind-clients samba-common-tools freeradius freeradius-utils realmd bind-utils
+dnf -y install ntsysv wget open-vm-tools oddjob oddjob-mkhomedir samba-winbind samba-winbind-clients samba-common-tools freeradius freeradius-utils realmd bind-utils dmidecode
 systemctl disable iscsi
 systemctl disable iscsi-onboot
 clear
