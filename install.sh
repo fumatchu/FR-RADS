@@ -14,6 +14,8 @@ USER=$(whoami)
 MAJOROS=$(cat /etc/redhat-release | grep -Eo "[0-9]" | sed '$d')
 DETECTIP=$(nmcli -f ipv4.method con show $INTERFACE)
 NMCLIIP=$(nmcli | grep inet4 | sed '$d'| cut -c7- |cut -d / -f1)
+HWKVM=$(dmidecode | grep -i -e manufacturer -e product -e vendor | grep KVM | cut -c16-)
+HWVMWARE=$(dmidecode | grep -i -e manufacturer -e product -e vendor | grep Manufacturer | grep "VMware, Inc." | cut -c16- | cut -d , -f1)
 
 #Checking for user permissions
 if [ "$USER" = "root" ]; then
