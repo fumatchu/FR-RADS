@@ -159,6 +159,25 @@ EOF
 read -p "Press any Key to continue or Ctrl-C to Exit"
 
 clear
+#Checking for VM platform-Install client
+echo ${GREEN}"Installing VMGuest${TEXTRESET}"
+if [ "$HWKVM" = "KVM" ]; then
+  echo ${GREEN}"KVM Platform detected ${TEXTRESET}"
+  echo "Installing qemu-guest-agent"
+  dnf -y install qemu-guest-agent
+else
+  echo "Not KVM Platform"
+fi
+
+#Checking for VM platform-Install client
+if [ "$HWVMWARE" = "VMware" ]; then
+  echo ${GREEN}"VMWARE Platform detected ${TEXTRESET}"
+  echo "Installing open-vm-tools"
+  dnf -y install open-vm-tools
+else
+  echo "Not VMware Platform"
+fi
+clear
 #Allow FreeRADIUS Ports on firewall-cmd
 echo "Updating Firewall Rules"
 echo "${GREEN} "
