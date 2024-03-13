@@ -33,6 +33,7 @@ else
    echo "Exiting the installer..."
    exit
 fi
+clear
 cat <<EOF
 Checking for static IP Address
 EOF
