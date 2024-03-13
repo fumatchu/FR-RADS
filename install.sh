@@ -263,7 +263,7 @@ clear
 
 #Validate winbind is working
 cat <<EOF
-${GREEN} Testing RPC to Active Directory${TEXTRESET}
+${GREEN}Testing RPC to Active Directory${TEXTRESET}
 EOF
 echo ${GREEN}
 wbinfo -t
