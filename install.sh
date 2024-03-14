@@ -48,11 +48,37 @@ fi
 if [ "$DETECTIP" = "ipv4.method:                            auto" ]; then
    echo ${RED}"Interface $INTERFACE is using DHCP${TEXTRESET}"
    read -p "Please provide a static IP address in CIDR format (i.e 192.168.24.2/24): " IPADDR
-   read -p "Please Provide a Default Gateway Address: " GW
-   read -p "Please provide the FQDN of this machine: " HOSTNAME
-   read -p "Please provide the IP address of the Active Dircetory server: " DNSSERVER
-   read -p "Please provide the domain search name: " DNSSEARCH
-   clear
+while [ -z "$IPADDR" ]
+do
+    echo ${RED}"The response cannot be blank. Please Try again${TEXTRESET}"
+    read -p "Please provide a static IP address in CIDR format (i.e 192.168.24.2/24): " IPADDR
+done
+read -p "Please Provide a Default Gateway Address: " GW
+while [ -z "$GW" ]
+do
+    echo ${RED}"The response cannot be blank. Please Try again${TEXTRESET}"
+    read -p "Please Provide a Default Gateway Address: " GW
+done
+read -p "Please provide the FQDN of this machine: " HOSTNAME
+while [ -z "$HOSTNAME" ]
+do
+    echo ${RED}"The response cannot be blank. Please Try again${TEXTRESET}"
+    read -p "Please provide the FQDN of this machine: " HOSTNAME
+done
+read -p "Please provide the IP address of the Active Dircetory server: " DNSSERVER
+while [ -z "$DNSSERVER" ]
+do
+    echo ${RED}"The response cannot be blank. Please Try again${TEXTRESET}"
+    read -p "Please provide the IP address of the Active Dircetory server: " DNSSERVER
+done
+read -p "Please provide the domain search name: " DNSSEARCH
+while [ -z "$DNSSEARCH" ]
+do
+    echo ${RED}"The response cannot be blank. Please Try again${TEXTRESET}"
+    read -p "Please provide the domain search name: " DNSSEARCH
+done
+
+clear
 
    cat <<EOF
 The following changes to the system will be configured:
@@ -93,6 +119,11 @@ ${RED}This system is still using the default hostname (localhost.localdomain)${T
 
 EOF
   read -p "Please provide a valid FQDN for this machine: " HOSTNAME
+  while [ -z "$HOSTNAME" ]
+do
+    echo ${RED}"The response cannot be blank. Please Try again${TEXTRESET}"
+    read -p "Please provide a valid FQDN for this machine: " HOSTNAME
+done
   hostnamectl set-hostname $HOSTNAME
   cat <<EOF
 The System must reboot for the changes to take effect.
@@ -215,13 +246,60 @@ EOF
 read -p "Press any Key to continue or Ctrl-C to Exit"
 clear
 read -p "Please provide the AD username for testing: " FRUSER
+while [ -z "$FRUSER" ]
+do
+    echo ${RED}"The response cannot be blank. Please Try again${TEXTRESET}"
+    read -p "Please provide the AD username for testing: " FRUSER
+done
+
 read -p "Please provides this user's password: " FRPASS
+while [ -z "$FRPASS" ]
+do
+    echo ${RED}"The response cannot be blank. Please Try again${TEXTRESET}"
+    read -p "Please provides this user's password: " FRPASS
+done
+
 read -p "Please provide the AD Group we will check for membership: " GROUP
+while [ -z "$GROUP" ]
+do
+    echo ${RED}"The response cannot be blank. Please Try again${TEXTRESET}"
+    read -p "Please provide the AD Group we will check for membership: " GROUP
+done
+
 read -p "Please provide the AD Domain (CAPS Preferred) name (Realm-i.e. $DOMAIN ): " ADDOMAIN
+while [ -z "$ADDOMAIN" ]
+do
+    echo ${RED}"The response cannot be blank. Please Try again${TEXTRESET}"
+    read -p "Please provide the AD Domain (CAPS Preferred) name (Realm-i.e. $DOMAIN ): " ADDOMAIN
+done
+
 read -p "Please provide the IP/FQDN Address of your NTP/AD Server: " NTP
+while [ -z "$NTP" ]
+do
+    echo ${RED}"The response cannot be blank. Please Try again${TEXTRESET}"
+    read -p "Please provide the IP/FQDN Address of your NTP/AD Server: " NTP
+done
+
 read -p "Please provide the Administrator Account to join this system to AD (Just username, not UPN): " DOMAINADMIN
+while [ -z "$DOMAINADMIN" ]
+do
+    echo ${RED}"The response cannot be blank. Please Try again${TEXTRESET}"
+    read -p "Please provide the Administrator Account to join this system to AD (Just username, not UPN): " DOMAINADMIN
+done
+
 read -p "Please provide the subnet in CIDR notation for NAS devices to talk to radius: " CIDRNAS
+while [ -z "$CIDRNAS" ]
+do
+    echo ${RED}"The response cannot be blank. Please Try again${TEXTRESET}"
+    read -p "Please provide the subnet in CIDR notation for NAS devices to talk to radius: " CIDRNAS
+done
+
 read -p "Please provide the shared secret your NAS devices will be using: " NASSECRET
+while [ -z "$NASSECRET" ]
+do
+    echo ${RED}"The response cannot be blank. Please Try again${TEXTRESET}"
+    read -p "Please provide the shared secret your NAS devices will be using: " NASSECRET
+done
 
 clear
 cat <<EOF
