@@ -9,29 +9,29 @@ INTERFACE=$(nmcli | grep "connected to" | cut -c22-)
 FQDN=$(hostname)
 IP=$(hostname -I)
 FQDN=$(hostname)
-DOMAIN=$(hostname | sed 's/^[^.:]*[.:]//' |sed -e 's/\(.*\)/\U\1/')
+DOMAIN=$(hostname | sed 's/^[^.:]*[.:]//' | sed -e 's/\(.*\)/\U\1/')
 USER=$(whoami)
 MAJOROS=$(cat /etc/redhat-release | grep -Eo "[0-9]" | sed '$d')
 DETECTIP=$(nmcli -f ipv4.method con show $INTERFACE)
-NMCLIIP=$(nmcli | grep inet4 | sed '$d'| cut -c7- |cut -d / -f1)
+NMCLIIP=$(nmcli | grep inet4 | sed '$d' | cut -c7- | cut -d / -f1)
 HWKVM=$(dmidecode | grep -i -e manufacturer -e product -e vendor | grep KVM | cut -c16-)
 HWVMWARE=$(dmidecode | grep -i -e manufacturer -e product -e vendor | grep Manufacturer | grep "VMware, Inc." | cut -c16- | cut -d , -f1)
 
 #Checking for user permissions
 if [ "$USER" = "root" ]; then
-   echo " "
+  echo " "
 else
-   echo ${RED}"This program must be run as root ${TEXTRESET}"
-   echo "Exiting"
+  echo ${RED}"This program must be run as root ${TEXTRESET}"
+  echo "Exiting"
 fi
 #Checking for version Information
 if [ "$MAJOROS" = "9" ]; then
-   echo " "
+  echo " "
 else
-   echo ${RED}"Sorry, but this installer only works on Rocky 9.X ${TEXTRESET}"
-   echo "Please upgrade to ${GREEN}Rocky 9.x${TEXTRESET}"
-   echo "Exiting the installer..."
-   exit
+  echo ${RED}"Sorry, but this installer only works on Rocky 9.X ${TEXTRESET}"
+  echo "Please upgrade to ${GREEN}Rocky 9.x${TEXTRESET}"
+  echo "Exiting the installer..."
+  exit
 fi
 clear
 cat <<EOF
@@ -41,46 +41,41 @@ sleep 1s
 
 #Detect Static or DHCP (IF not Static, change it)
 if [ -z "$INTERFACE" ]; then
-   "Usage: $0 <interface>"
-   exit 1
+  "Usage: $0 <interface>"
+  exit 1
 fi
 
 if [ "$DETECTIP" = "ipv4.method:                            auto" ]; then
-   echo ${RED}"Interface $INTERFACE is using DHCP${TEXTRESET}"
-   read -p "Please provide a static IP address in CIDR format (i.e 192.168.24.2/24): " IPADDR
-while [ -z "$IPADDR" ]
-do
+  echo ${RED}"Interface $INTERFACE is using DHCP${TEXTRESET}"
+  read -p "Please provide a static IP address in CIDR format (i.e 192.168.24.2/24): " IPADDR
+  while [ -z "$IPADDR" ]; do
     echo ${RED}"The response cannot be blank. Please Try again${TEXTRESET}"
     read -p "Please provide a static IP address in CIDR format (i.e 192.168.24.2/24): " IPADDR
-done
-read -p "Please Provide a Default Gateway Address: " GW
-while [ -z "$GW" ]
-do
+  done
+  read -p "Please Provide a Default Gateway Address: " GW
+  while [ -z "$GW" ]; do
     echo ${RED}"The response cannot be blank. Please Try again${TEXTRESET}"
     read -p "Please Provide a Default Gateway Address: " GW
-done
-read -p "Please provide the FQDN of this machine: " HOSTNAME
-while [ -z "$HOSTNAME" ]
-do
+  done
+  read -p "Please provide the FQDN of this machine: " HOSTNAME
+  while [ -z "$HOSTNAME" ]; do
     echo ${RED}"The response cannot be blank. Please Try again${TEXTRESET}"
     read -p "Please provide the FQDN of this machine: " HOSTNAME
-done
-read -p "Please provide the IP address of the Active Dircetory server: " DNSSERVER
-while [ -z "$DNSSERVER" ]
-do
+  done
+  read -p "Please provide the IP address of the Active Dircetory server: " DNSSERVER
+  while [ -z "$DNSSERVER" ]; do
     echo ${RED}"The response cannot be blank. Please Try again${TEXTRESET}"
     read -p "Please provide the IP address of the Active Dircetory server: " DNSSERVER
-done
-read -p "Please provide the domain search name: " DNSSEARCH
-while [ -z "$DNSSEARCH" ]
-do
+  done
+  read -p "Please provide the domain search name: " DNSSEARCH
+  while [ -z "$DNSSEARCH" ]; do
     echo ${RED}"The response cannot be blank. Please Try again${TEXTRESET}"
     read -p "Please provide the domain search name: " DNSSEARCH
-done
+  done
 
-clear
+  clear
 
-   cat <<EOF
+  cat <<EOF
 The following changes to the system will be configured:
 IP address: ${GREEN}$IPADDR${TEXTRESET}
 Gateway: ${GREEN}$GW${TEXTRESET}
@@ -89,29 +84,28 @@ DNS Server: ${GREEN}$DNSSERVER${TEXTRESET}
 HOSTNAME: ${GREEN}$HOSTNAME${TEXTRESET}
 EOF
 
-   read -p "Press any Key to Continue"
-   nmcli con mod $INTERFACE ipv4.address $IPADDR
-   nmcli con mod $INTERFACE ipv4.gateway $GW
-   nmcli con mod $INTERFACE ipv4.method manual
-   nmcli con mod $INTERFACE ipv4.dns-search $DNSSEARCH
-   nmcli con mod $INTERFACE ipv4.dns $DNSSERVER
-   hostnamectl set-hostname $HOSTNAME
+  read -p "Press any Key to Continue"
+  nmcli con mod $INTERFACE ipv4.address $IPADDR
+  nmcli con mod $INTERFACE ipv4.gateway $GW
+  nmcli con mod $INTERFACE ipv4.method manual
+  nmcli con mod $INTERFACE ipv4.dns-search $DNSSEARCH
+  nmcli con mod $INTERFACE ipv4.dns $DNSSERVER
+  hostnamectl set-hostname $HOSTNAME
 
-   cat <<EOF
+  cat <<EOF
 The System must reboot for the changes to take effect. ${RED}Please log back in as root.${TEXTRESET}
 The installer will continue when you log back in.
 If using SSH, please use the IP Address: $IPADDR
 EOF
-   read -p "Press Any Key to Continue"
-   clear
-   echo "/root/FR-Installer/install.sh" >>/root/.bash_profile
-   reboot
-   exit
+  read -p "Press Any Key to Continue"
+  clear
+  echo "/root/FR-Installer/install.sh" >>/root/.bash_profile
+  reboot
+  exit
 else
-   echo ${GREEN}"Interface $INTERFACE is using a static IP address ${TEXTRESET}"
+  echo ${GREEN}"Interface $INTERFACE is using a static IP address ${TEXTRESET}"
 fi
 clear
-
 
 if [ "$FQDN" = "localhost.localdomain" ]; then
   cat <<EOF
@@ -119,11 +113,10 @@ ${RED}This system is still using the default hostname (localhost.localdomain)${T
 
 EOF
   read -p "Please provide a valid FQDN for this machine: " HOSTNAME
-  while [ -z "$HOSTNAME" ]
-do
+  while [ -z "$HOSTNAME" ]; do
     echo ${RED}"The response cannot be blank. Please Try again${TEXTRESET}"
     read -p "Please provide a valid FQDN for this machine: " HOSTNAME
-done
+  done
   hostnamectl set-hostname $HOSTNAME
   cat <<EOF
 The System must reboot for the changes to take effect.
@@ -246,59 +239,51 @@ EOF
 read -p "Press any Key to continue or Ctrl-C to Exit"
 clear
 read -p "Please provide the AD username for testing: " FRUSER
-while [ -z "$FRUSER" ]
-do
-    echo ${RED}"The response cannot be blank. Please Try again${TEXTRESET}"
-    read -p "Please provide the AD username for testing: " FRUSER
+while [ -z "$FRUSER" ]; do
+  echo ${RED}"The response cannot be blank. Please Try again${TEXTRESET}"
+  read -p "Please provide the AD username for testing: " FRUSER
 done
 
 read -p "Please provides this user's password: " FRPASS
-while [ -z "$FRPASS" ]
-do
-    echo ${RED}"The response cannot be blank. Please Try again${TEXTRESET}"
-    read -p "Please provides this user's password: " FRPASS
+while [ -z "$FRPASS" ]; do
+  echo ${RED}"The response cannot be blank. Please Try again${TEXTRESET}"
+  read -p "Please provides this user's password: " FRPASS
 done
 
 read -p "Please provide the AD Group we will check for membership: " GROUP
-while [ -z "$GROUP" ]
-do
-    echo ${RED}"The response cannot be blank. Please Try again${TEXTRESET}"
-    read -p "Please provide the AD Group we will check for membership: " GROUP
+while [ -z "$GROUP" ]; do
+  echo ${RED}"The response cannot be blank. Please Try again${TEXTRESET}"
+  read -p "Please provide the AD Group we will check for membership: " GROUP
 done
 
 read -p "Please provide the AD Domain (CAPS Preferred) name (Realm-i.e. $DOMAIN ): " ADDOMAIN
-while [ -z "$ADDOMAIN" ]
-do
-    echo ${RED}"The response cannot be blank. Please Try again${TEXTRESET}"
-    read -p "Please provide the AD Domain (CAPS Preferred) name (Realm-i.e. $DOMAIN ): " ADDOMAIN
+while [ -z "$ADDOMAIN" ]; do
+  echo ${RED}"The response cannot be blank. Please Try again${TEXTRESET}"
+  read -p "Please provide the AD Domain (CAPS Preferred) name (Realm-i.e. $DOMAIN ): " ADDOMAIN
 done
 
 read -p "Please provide the IP/FQDN Address of your NTP/AD Server: " NTP
-while [ -z "$NTP" ]
-do
-    echo ${RED}"The response cannot be blank. Please Try again${TEXTRESET}"
-    read -p "Please provide the IP/FQDN Address of your NTP/AD Server: " NTP
+while [ -z "$NTP" ]; do
+  echo ${RED}"The response cannot be blank. Please Try again${TEXTRESET}"
+  read -p "Please provide the IP/FQDN Address of your NTP/AD Server: " NTP
 done
 
 read -p "Please provide the Administrator Account to join this system to AD (Just username, not UPN): " DOMAINADMIN
-while [ -z "$DOMAINADMIN" ]
-do
-    echo ${RED}"The response cannot be blank. Please Try again${TEXTRESET}"
-    read -p "Please provide the Administrator Account to join this system to AD (Just username, not UPN): " DOMAINADMIN
+while [ -z "$DOMAINADMIN" ]; do
+  echo ${RED}"The response cannot be blank. Please Try again${TEXTRESET}"
+  read -p "Please provide the Administrator Account to join this system to AD (Just username, not UPN): " DOMAINADMIN
 done
 
 read -p "Please provide the subnet in CIDR notation for NAS devices to talk to radius: " CIDRNAS
-while [ -z "$CIDRNAS" ]
-do
-    echo ${RED}"The response cannot be blank. Please Try again${TEXTRESET}"
-    read -p "Please provide the subnet in CIDR notation for NAS devices to talk to radius: " CIDRNAS
+while [ -z "$CIDRNAS" ]; do
+  echo ${RED}"The response cannot be blank. Please Try again${TEXTRESET}"
+  read -p "Please provide the subnet in CIDR notation for NAS devices to talk to radius: " CIDRNAS
 done
 
 read -p "Please provide the shared secret your NAS devices will be using: " NASSECRET
-while [ -z "$NASSECRET" ]
-do
-    echo ${RED}"The response cannot be blank. Please Try again${TEXTRESET}"
-    read -p "Please provide the shared secret your NAS devices will be using: " NASSECRET
+while [ -z "$NASSECRET" ]; do
+  echo ${RED}"The response cannot be blank. Please Try again${TEXTRESET}"
+  read -p "Please provide the shared secret your NAS devices will be using: " NASSECRET
 done
 
 clear
