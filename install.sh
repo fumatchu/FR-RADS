@@ -51,7 +51,7 @@ if [ "$DETECTIP" = "ipv4.method:                            auto" ]; then
    read -p "Please Provide a Default Gateway Address: " GW
    read -p "Please provide the FQDN of this machine: " HOSTNAME
    read -p "Please provide the IP address of the Active Dircetory server: " DNSSERVER
-   read -p "Please provide the domain search name:: " DNSSEARCH
+   read -p "Please provide the domain search name: " DNSSEARCH
    clear
 
    cat <<EOF
