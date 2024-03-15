@@ -528,7 +528,7 @@ The Installer will continue in a moment
 ${YELLOW}Getting Ready to install Server Management${TEXTRESET}
 
 EOF
-sleep 12
+sleep 18
 
 #Clean up FR Install files
 sed -i '$ d' /root/.bash_profile
