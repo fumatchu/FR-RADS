@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 #install.sh-FreeRADIUS
 dnf -y install net-tools dmidecode
 TEXTRESET=$(tput sgr0)
@@ -56,7 +56,7 @@ if [ "$DETECTIP" = "ipv4.method:                            auto" ]; then
   done
   while [[ ! $IPADDR =~ ^$n(\.$n){3}/$m$ ]]; do
     read -p ${RED}"The entry is not in valid CIDR notation. Please Try again:${TEXTRESET} " IPADDR
-done
+  done
   read -p "Please Provide a Default Gateway Address: " GW
   while [ -z "$GW" ]; do
     echo ${RED}"The response cannot be blank. Please Try again${TEXTRESET}"
