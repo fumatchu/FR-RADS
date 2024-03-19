@@ -49,6 +49,12 @@ mkdir /root/FR-Installer
 git clone https://github.com/fumatchu/FR-RADS.git /root/FR-Installer
 
 chmod 700 /root/FR-Installer/i*
+#Clone RADS
+mkdir /root/ADDCInstaller
+
+git clone https://github.com/fumatchu/RADS.git /root/ADDCInstaller
+
+chmod 700 /root/ADDCInstaller/DC*
 clear
 
 /root/FR-Installer/install.sh
