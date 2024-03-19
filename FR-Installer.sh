@@ -57,4 +57,48 @@ git clone https://github.com/fumatchu/RADS.git /root/ADDCInstaller
 chmod 700 /root/ADDCInstaller/DC*
 clear
 
-/root/FR-Installer/install.sh
+cat <<EOF
+ *********************************************
+
+ This script was created for ${GREEN}Rocky 9.x${TEXTRESET}
+ This will install 
+ 1. A primary Samba AD/DC (and crceate the Forest/Domain)
+                       ${YELLOW}-OR-${TEXTRESET}
+ 2. An additional AD server and provision it.
+                       ${YELLOW}-OR-${TEXTRESET}                    
+ 3. Provision and intergrate a FreeRADIUS server
+ 
+ ${RED}Each Server must be installed on a separate server (VM/Hardware) instance${TEXTRESET}
+ 
+ What this script does:
+ 1. Apply appropriate SELinux context and Firewall rules
+ 2. Install the REPO(s) needed and dependencies needed
+ 3. Compile Samba RPMS (If deploying AD)
+ 4. Configure the system as needed, based on your answers
+ 5. Provide testing for the configured platform
+ 6. Install Server Management Tools
+
+ *********************************************
+ 
+
+EOF
+
+read -p "Press Any Key to Continue"
+
+
+items=(1 "Install First AD Server/Create Domain"
+    2 "Install Secondary/Tertiary AD Server"
+    3 "Install FreeRADIUS Server"
+)
+
+while choice=$(dialog --title "$TITLE" \
+    --backtitle "Server Installer" \
+    --menu "Please select" 25 50 3 "${items[@]}" \
+    2>&1 >/dev/tty); do
+    case $choice in
+    1) /root/ADDCInstaller/DCInstall.sh ;;
+    2) /root/ADDCInstaller/DC1-Install.sh ;;
+    3) /root/FR-Installer/install.sh ;;
+    esac
+done
+clear # clear after user pressed Cancel
