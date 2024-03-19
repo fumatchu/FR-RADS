@@ -1,5 +1,6 @@
 #!/bin/bash
 #install.sh-FreeRADIUS
+clear
 dnf -y install net-tools dmidecode
 TEXTRESET=$(tput sgr0)
 RED=$(tput setaf 1)
