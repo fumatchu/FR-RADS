@@ -546,6 +546,6 @@ EOF
 sleep 3
 cd /root/
 dnf -y install wget
-wget https://raw.githubusercontent.com/fumatchu/FR-RADS-SM/main/FR-RADS-SMInstaller.sh
-chmod 700 ./FR-RADS-SMInstaller.sh
-/root/FR-RADS-SMInstaller.sh
+wget https://raw.githubusercontent.com/fumatchu/FR-RADS-SM/main/FR-RADS-FirstInstaller.sh
+chmod 700 ./FR-RADS-FirstInstaller.sh
+/root/FR-RADS-FirstInstaller.sh
