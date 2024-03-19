@@ -43,7 +43,7 @@ Retrieving Files from GitHub
 EOF
 
 sleep 1
-
+#Clone FR
 mkdir /root/FR-Installer
 
 git clone https://github.com/fumatchu/FR-RADS.git /root/FR-Installer
