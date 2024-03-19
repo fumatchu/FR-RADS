@@ -34,7 +34,7 @@ ${YELLOW}Installing wget and git${TEXTRESET}
 EOF
 sleep 1
 
-dnf -y install wget git
+dnf -y install wget git dialog
 
 cat <<EOF
 ${YELLOW}*****************************
