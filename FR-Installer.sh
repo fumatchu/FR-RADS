@@ -85,7 +85,6 @@ EOF
 
 read -p "Press Any Key to Continue"
 
-
 items=(1 "Install First AD Server/Create Domain"
     2 "Install Secondary/Tertiary AD Server"
     3 "Install FreeRADIUS Server"
