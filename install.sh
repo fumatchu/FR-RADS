@@ -295,7 +295,7 @@ cat <<EOF
 Validating your Entries:
 Radius Testing Username: ${GREEN}$FRUSER${TEXTRESET}
 Radius Testing Password: ${GREEN}$FRPASS${TEXTRESET}
-GRoup Membership Name: ${GREEN}$GROUP${TEXTRESET}
+Group Membership Name: ${GREEN}$GROUP${TEXTRESET}
 Domain: ${GREEN}$ADDOMAIN${TEXTRESET}
 NTP Server: ${GREEN}$NTP${TEXTRESET}
 AD Administrator Account: ${GREEN}$DOMAINADMIN${TEXTRESET}
