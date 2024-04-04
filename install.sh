@@ -234,7 +234,24 @@ dnf config-manager --set-enabled crb
 dnf -y update
 dnf -y install ntsysv wget oddjob oddjob-mkhomedir samba-winbind samba-winbind-clients samba-common-tools freeradius freeradius-utils realmd bind-utils
 clear
+#Add option for cockpit install
+cat <<EOF
+${GREEN}Install Cockpit${TEXTRESET}
+Cockpit is a server administration tool, focused on providing a modern-looking 
+and user-friendly interface to manage and administer servers.
+EOF
 
+read -r -p "Would you like to install Cockpit for web based administration? [y/N]" -n 1
+echo # (optional) move to a new line
+if [[ "$REPLY" =~ ^[Yy]$ ]]; then
+
+    echo ${YELLOW}"Your cockpit instance can be accessed at ${FQDN}:9090"${TEXTRESET}
+    sleep 5
+    dnf -y install cockpit-navigator cockpit cockpit-storaged
+    systemctl enable cockpit.socket
+    systemctl start cockpit.socket
+fi
+clear
 cat <<EOF
 The Installer will now ask some questions from the checklist provided earlier.
 Please make sure you have this information
