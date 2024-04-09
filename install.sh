@@ -537,7 +537,7 @@ Example entries for MAC Auth and Mac with IPSK are included in:
 If all tests completed successfully, the server is now ready to serve NAS endpoints for
    1. 802.1x (PEAP and MS-CHAP)
          (Make sure your AD users are a Member of the group: ${GREEN}$GROUP${TEXTRESET})
-   2. Open MAC Auth (Provide the entries in the users file or user ${GREEN}server-manager${TEXTRESET})
+   2. Open MAC Auth (Provide the entries in the users file or use ${GREEN}server-manager${TEXTRESET})
    3. Mac Auth with IPSK (Provide the entries in the users file or use ${GREEN}server-manager${TEXTRESET})
 The Installer will continue in a moment
 
