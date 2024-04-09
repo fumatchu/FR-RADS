@@ -342,6 +342,7 @@ chronyc tracking
 
 echo ${GREEN}"We should be syncing time${TEXTRESET}"
 echo " "
+echo "The Installer will continue in a moment, otherwise Ctrl-C to stop processing"
 sleep 8
 clear
 
