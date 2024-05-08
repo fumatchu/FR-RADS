@@ -1,4 +1,6 @@
 FreeRADIUS (R)ocky (A)ctive (D)irectory (S)cript Builder
+A walk-thrgouh can also be seen here:
+https://youtu.be/C85jCjzI6-Q
 
 This is a script to allow a Rocky (RHEL) Server (9.x) to become an integrated Radius server to read from AD for 802.1x
 The installer will integrate this server into a pre-existing AD environment, via winbind (realmd) and configure itself for
