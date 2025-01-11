@@ -48,8 +48,4 @@ Please see the EASY_INSTALL File
 #After the GUI install: 
 #(Just copy and paste the following lines on the Rocky terminal)
 
-cd /root/
-dnf -y install wget 
-wget https://raw.githubusercontent.com/fumatchu/FR-RADS/main/FR-Installer.sh
-chmod 700 ./FR-Installer.sh
-/root/FR-Installer.sh
+dnf -y install wget && cd /root &&  bash <(wget -qO- https://raw.githubusercontent.com/fumatchu/FR-RADS/main/FR-Installer.sh)
